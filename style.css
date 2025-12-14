@@ -1,3 +1,4 @@
+
 :root {
     --primary: #4a90e2;
     --bg: #f4f7f6;
@@ -6,6 +7,18 @@
     --friend: #2ecc71;
     --neutral: #f1c40f;
     --enemy: #e74c3c;
+}
+
+/* Add this to your existing CSS */
+.lang-select {
+    margin-top: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    background: white;
+    color: var(--primary);
+    font-weight: bold;
+    cursor: pointer;
 }
 
 body {

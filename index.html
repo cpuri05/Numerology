@@ -12,36 +12,40 @@
 <body>
 
     <header>
-        <h1>Ank Niketan</h1>
+        <h1 data-i18n="app_title">Numerology</h1>
+        <!-- Language Switcher -->
+        <select id="lang-switch" class="lang-select">
+            <option value="en">English</option>
+            <option value="hi">हिंदी (Hindi)</option>
+        </select>
     </header>
 
     <main>
-        <!-- TABS TO SWITCH MODES -->
+        <!-- TABS -->
         <div class="tabs">
-            <button id="tab-single" class="active">Personal</button>
-            <button id="tab-compat">Compatibility</button>
+            <button id="tab-single" class="active" data-i18n="tab_single">Single Analysis</button>
+            <button id="tab-compat" data-i18n="tab_compat">Compatibility</button>
         </div>
 
         <!-- SECTION 1: SINGLE ANALYSIS -->
         <section id="section-single">
             <div class="input-group">
-                <label>What are we analyzing?</label>
+                <label data-i18n="lbl_category">Category</label>
                 <select id="category-select">
-                    <option value="Name">Name</option>
-                    <option value="Business Name">Business Name</option>
-                    <option value="Vehicle Number">Vehicle Number</option>
-                    <option value="House Name">House Name</option>
-                    <option value="Custom">Other (Custom)...</option>
+                    <option value="Name" data-i18n="opt_name">Name</option>
+                    <option value="Business Name" data-i18n="opt_business">Business Name</option>
+                    <option value="Vehicle Number" data-i18n="opt_vehicle">Vehicle Number</option>
+                    <option value="Custom" data-i18n="opt_custom">Other (Custom)...</option>
                 </select>
                 <input type="text" id="category-custom" placeholder="Enter Category Name" class="hidden">
             </div>
 
             <div class="input-group">
-                <label>Enter Value (Text)</label>
+                <label data-i18n="lbl_value">Enter Text</label>
                 <input type="text" id="input-text" placeholder="e.g., Alice Enterprise">
             </div>
 
-            <button id="btn-calculate" class="action-btn">Calculate Vibration</button>
+            <button id="btn-calculate" class="action-btn" data-i18n="btn_calc">Calculate Vibration</button>
 
             <div id="result-area" class="result-box hidden">
                 <p id="result-message"></p>
@@ -52,16 +56,16 @@
         <!-- SECTION 2: COMPATIBILITY -->
         <section id="section-compat" class="hidden">
             <div class="input-group">
-                <label>Person / Entity A</label>
-                <input type="text" id="compat-input-a" placeholder="e.g., John">
+                <label data-i18n="lbl_person_a">First Name/Entity</label>
+                <input type="text" id="compat-input-a" placeholder="A">
             </div>
             
             <div class="input-group">
-                <label>Person / Entity B</label>
-                <input type="text" id="compat-input-b" placeholder="e.g., Mary">
+                <label data-i18n="lbl_person_b">Second Name/Entity</label>
+                <input type="text" id="compat-input-b" placeholder="B">
             </div>
 
-            <button id="btn-compare" class="action-btn">Check Compatibility</button>
+            <button id="btn-compare" class="action-btn" data-i18n="btn_compare">Check Compatibility</button>
 
             <div id="compat-result-area" class="result-box hidden">
                 <div class="comparison-grid">
@@ -80,14 +84,12 @@
         </section>
     </main>
 
-    <!-- Load Core Logic First -->
     <script src="numerology_core.js"></script>
-    <!-- Load UI Logic -->
     <script src="app.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./service-worker.js')
-                .then(() => console.log('Service Worker Registered'));
+                .then(() => console.log('SW Registered'));
         }
     </script>
 </body>
