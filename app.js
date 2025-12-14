@@ -1,5 +1,3 @@
-const engine = new NumerologyEngine();
-
 // --- 1. TRANSLATION DICTIONARY ---
 const translations = {
     en: {
@@ -47,31 +45,40 @@ const translations = {
 };
 
 let currentLang = 'en';
+let engine;
 
 // --- UI Elements ---
-const langSwitch = document.getElementById('lang-switch');
-const sectionSingle = document.getElementById('section-single');
-const sectionCompat = document.getElementById('section-compat');
-const tabSingle = document.getElementById('tab-single');
-const tabCompat = document.getElementById('tab-compat');
-const categorySelect = document.getElementById('category-select');
-const categoryCustom = document.getElementById('category-custom');
-const inputText = document.getElementById('input-text');
-const btnCalculate = document.getElementById('btn-calculate');
-const resultArea = document.getElementById('result-area');
-const resultMsg = document.getElementById('result-message');
-const resultNum = document.getElementById('result-number');
+let langSwitch, categorySelect, categoryCustom, inputText, btnCalculate, resultArea, resultMsg, resultNum;
+let inputA, inputB, btnCompare, compatResultArea, numADisp, numBDisp, nameADisp, nameBDisp, relationStatus, compatDesc;
+let sectionSingle, sectionCompat, tabSingle, tabCompat;
 
-const inputA = document.getElementById('compat-input-a');
-const inputB = document.getElementById('compat-input-b');
-const btnCompare = document.getElementById('btn-compare');
-const compatResultArea = document.getElementById('compat-result-area');
-const numADisp = document.getElementById('num-a-disp');
-const numBDisp = document.getElementById('num-b-disp');
-const nameADisp = document.getElementById('name-a-disp');
-const nameBDisp = document.getElementById('name-b-disp');
-const relationStatus = document.getElementById('relation-status');
-const compatDesc = document.getElementById('compat-desc');
+// Initialize after DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+    engine = new NumerologyEngine();
+    
+    langSwitch = document.getElementById('lang-switch');
+    sectionSingle = document.getElementById('section-single');
+    sectionCompat = document.getElementById('section-compat');
+    tabSingle = document.getElementById('tab-single');
+    tabCompat = document.getElementById('tab-compat');
+    categorySelect = document.getElementById('category-select');
+    categoryCustom = document.getElementById('category-custom');
+    inputText = document.getElementById('input-text');
+    btnCalculate = document.getElementById('btn-calculate');
+    resultArea = document.getElementById('result-area');
+    resultMsg = document.getElementById('result-message');
+    resultNum = document.getElementById('result-number');
+
+    inputA = document.getElementById('compat-input-a');
+    inputB = document.getElementById('compat-input-b');
+    btnCompare = document.getElementById('btn-compare');
+    compatResultArea = document.getElementById('compat-result-area');
+    numADisp = document.getElementById('num-a-disp');
+    numBDisp = document.getElementById('num-b-disp');
+    nameADisp = document.getElementById('name-a-disp');
+    nameBDisp = document.getElementById('name-b-disp');
+    relationStatus = document.getElementById('relation-status');
+    compatDesc = document.getElementById('compat-desc');
 
 // --- LANGUAGE FUNCTION ---
 function updateLanguage(lang) {
@@ -104,17 +111,17 @@ function updateLanguage(lang) {
     }
 }
 
-// Event Listener for Language Switch
-langSwitch.addEventListener('change', (e) => {
-    updateLanguage(e.target.value);
-});
+    // Event Listener for Language Switch
+    langSwitch.addEventListener('change', (e) => {
+        updateLanguage(e.target.value);
+    });
 
-// Initialize language on load
-updateLanguage(currentLang);
+    // Initialize language on load
+    updateLanguage(currentLang);
 
-// --- EXISTING LOGIC ---
+    // --- EXISTING LOGIC ---
 
-tabSingle.addEventListener('click', () => {
+    tabSingle.addEventListener('click', () => {
     sectionSingle.classList.remove('hidden');
     sectionCompat.classList.add('hidden');
     tabSingle.classList.add('active');
@@ -193,4 +200,5 @@ btnCompare.addEventListener('click', () => {
     }
     
     compatResultArea.classList.remove('hidden');
+    });
 });
