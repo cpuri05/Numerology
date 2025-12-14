@@ -3,7 +3,7 @@ const engine = new NumerologyEngine();
 // --- 1. TRANSLATION DICTIONARY ---
 const translations = {
     en: {
-        app_title: "Vibration Calculator",
+        app_title: "Numerology",
         tab_single: "Single Analysis",
         tab_compat: "Compatibility",
         lbl_category: "Category",
@@ -24,7 +24,7 @@ const translations = {
         rel_desc: "are considered"
     },
     hi: {
-        app_title: "अंकज्योतिष कैलकुलेटर",
+        app_title: "अंकज्योतिष",
         tab_single: "एकल विश्लेषण",
         tab_compat: "मैत्री चक्र",
         lbl_category: "श्रेणी",
@@ -84,13 +84,23 @@ function updateLanguage(lang) {
         if (t[key]) elem.textContent = t[key];
     });
 
+    // Update select options
+    categorySelect.options[0].textContent = t.opt_name;
+    categorySelect.options[1].textContent = t.opt_business;
+    categorySelect.options[2].textContent = t.opt_vehicle;
+    categorySelect.options[3].textContent = t.opt_custom;
+
     // Update placeholders
     if(lang === 'hi') {
         inputText.placeholder = "जैसे: सूर्य एतर्प्राइज़";
         categoryCustom.placeholder = "श्रेणी का नाम लिखें";
+        inputA.placeholder = "पहला नाम";
+        inputB.placeholder = "दूसरा नाम";
     } else {
         inputText.placeholder = "e.g., Alice Enterprise";
         categoryCustom.placeholder = "Enter Category Name";
+        inputA.placeholder = "A";
+        inputB.placeholder = "B";
     }
 }
 
@@ -98,6 +108,9 @@ function updateLanguage(lang) {
 langSwitch.addEventListener('change', (e) => {
     updateLanguage(e.target.value);
 });
+
+// Initialize language on load
+updateLanguage(currentLang);
 
 // --- EXISTING LOGIC ---
 
@@ -126,7 +139,7 @@ categorySelect.addEventListener('change', (e) => {
 
 btnCalculate.addEventListener('click', () => {
     const text = inputText.value.trim();
-    if (!text) return alert(currentLang === 'hi' ? "कृपया कुछ लिखें" : "Please enter some text.");
+    if (!text) return alert(currentLang === 'hi' ? "कृपया कुछ लिखें" : "Please enter some text");
 
     // Logic to get display name of category
     let categoryLabel = categorySelect.options[categorySelect.selectedIndex].text;
@@ -152,7 +165,7 @@ btnCompare.addEventListener('click', () => {
     const textA = inputA.value.trim();
     const textB = inputB.value.trim();
 
-    if (!textA || !textB) return alert("Please enter both names.");
+    if (!textA || !textB) return alert(currentLang === 'hi' ? "कृपया दोनों नाम दर्ज करें" : "Please enter both names");
 
     const numA = engine.calculate_vibration(textA);
     const numB = engine.calculate_vibration(textB);
