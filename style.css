@@ -1,0 +1,122 @@
+:root {
+    --primary: #4a90e2;
+    --bg: #f4f7f6;
+    --card: #ffffff;
+    --text: #333;
+    --friend: #2ecc71;
+    --neutral: #f1c40f;
+    --enemy: #e74c3c;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    background-color: var(--primary);
+    color: white;
+    width: 100%;
+    padding: 1rem 0;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+main {
+    width: 90%;
+    max-width: 500px;
+    margin-top: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+input, select {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.hidden { display: none !important; }
+
+.action-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.result-box {
+    margin-top: 20px;
+    background: var(--card);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.big-number {
+    font-size: 4rem;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+}
+.tabs button {
+    flex: 1;
+    padding: 10px;
+    background: #e0e0e0;
+    border: none;
+    cursor: pointer;
+}
+.tabs button.active {
+    background: var(--primary);
+    color: white;
+}
+
+/* Compatibility Grid */
+.comparison-grid {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.mid-number {
+    font-size: 2rem;
+    font-weight: bold;
+}
+.relation-badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+}
+.status-Friend { background-color: var(--friend); }
+.status-Neutral { background-color: var(--neutral); color: #333; }
+.status-Enemy { background-color: var(--enemy); }

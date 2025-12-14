@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Numerology Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <meta name="theme-color" content="#4a90e2">
+</head>
+<body>
+
+    <header>
+        <h1>Vibration Calculator</h1>
+    </header>
+
+    <main>
+        <!-- TABS TO SWITCH MODES -->
+        <div class="tabs">
+            <button id="tab-single" class="active">Single Analysis</button>
+            <button id="tab-compat">Compatibility</button>
+        </div>
+
+        <!-- SECTION 1: SINGLE ANALYSIS -->
+        <section id="section-single">
+            <div class="input-group">
+                <label>What are we analyzing?</label>
+                <select id="category-select">
+                    <option value="Name">Name</option>
+                    <option value="Business Name">Business Name</option>
+                    <option value="Vehicle Number">Vehicle Number</option>
+                    <option value="House Name">House Name</option>
+                    <option value="Custom">Other (Custom)...</option>
+                </select>
+                <input type="text" id="category-custom" placeholder="Enter Category Name" class="hidden">
+            </div>
+
+            <div class="input-group">
+                <label>Enter Value (Text)</label>
+                <input type="text" id="input-text" placeholder="e.g., Alice Enterprise">
+            </div>
+
+            <button id="btn-calculate" class="action-btn">Calculate Vibration</button>
+
+            <div id="result-area" class="result-box hidden">
+                <p id="result-message"></p>
+                <div class="big-number" id="result-number"></div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: COMPATIBILITY -->
+        <section id="section-compat" class="hidden">
+            <div class="input-group">
+                <label>Person / Entity A</label>
+                <input type="text" id="compat-input-a" placeholder="e.g., John">
+            </div>
+            
+            <div class="input-group">
+                <label>Person / Entity B</label>
+                <input type="text" id="compat-input-b" placeholder="e.g., Mary">
+            </div>
+
+            <button id="btn-compare" class="action-btn">Check Compatibility</button>
+
+            <div id="compat-result-area" class="result-box hidden">
+                <div class="comparison-grid">
+                    <div>
+                        <span id="name-a-disp"></span>
+                        <div class="mid-number" id="num-a-disp"></div>
+                    </div>
+                    <div class="relation-badge" id="relation-status">?</div>
+                    <div>
+                        <span id="name-b-disp"></span>
+                        <div class="mid-number" id="num-b-disp"></div>
+                    </div>
+                </div>
+                <p id="compat-desc"></p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Load Core Logic First -->
+    <script src="numerology_core.js"></script>
+    <!-- Load UI Logic -->
+    <script src="app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./service-worker.js')
+                .then(() => console.log('Service Worker Registered'));
+        }
+    </script>
+</body>
+</html>
