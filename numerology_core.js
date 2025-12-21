@@ -1,7 +1,6 @@
-// --- START OF FILE numerology_core.js ---
-
 class NumerologyEngine {
     constructor() {
+        // Chaldean Letter Values
         this.LETTER_MAP = {
             1: ['A', 'I', 'J', 'Q', 'Y'],
             2: ['B', 'K', 'R'],
@@ -13,6 +12,7 @@ class NumerologyEngine {
             8: ['F', 'P']
         };
 
+        // Planetary Relationships
         this.RELATIONSHIPS = {
             1: { friends: [2, 3, 9], neutral: [5], enemy: [4, 6, 7, 8] },
             2: { friends: [1, 5], neutral: [3, 6, 8, 9], enemy: [4, 7] },
@@ -55,7 +55,7 @@ class NumerologyEngine {
     }
 
     check_compatibility(source_num, target_num) {
-        if (!source_num || !target_num) return "Neutral"; // Fallback
+        if (!source_num || !target_num) return "Neutral"; 
         if (source_num === target_num) return "Friend";
 
         const rel = this.RELATIONSHIPS[source_num];
@@ -101,42 +101,32 @@ class NumerologyEngine {
         return { status: "Neutral", code: "neutral" };
     }
 
-    // --- NEW: Varshaphal (Forecast) Logic ---
+    // --- FORECAST LOGIC ---
 
-    // 1. Calculate Jeevank (Life Number) - Sum of full DOB
     get_jeevank(dateString) {
         if (!dateString) return 0;
         const d = new Date(dateString);
-        // Formula: Sum of all digits in DD, MM, YYYY
-        // Simplification: We can just sum the day, month, and year parts
         const day = d.getDate();
         const month = d.getMonth() + 1;
         const year = d.getFullYear();
-        
         let sum = day + month + year;
         return this._get_digital_root(sum);
     }
 
-    // 2. Calculate Varshank (Year Number) = Jeevank + Current Year
     get_varshank(jeevank, currentYear) {
         return this._get_digital_root(jeevank + currentYear);
     }
 
-    // 3. Calculate Masank (Month Number) = Varshank + Month Sequence
     get_masank(varshank, monthIndex) {
-        // monthIndex: 1 for Jan, 2 for Feb...
         return this._get_digital_root(varshank + monthIndex);
     }
 
-    // 4. Calculate Dinank (Day Number) = Masank + Date + WeekdayValue
     get_dinank(masank, dayDate, weekdayVal) {
-        // weekdayVal: Sun=1, Mon=2 ... Sat=7
         let sum = masank + dayDate + weekdayVal;
         return this._get_digital_root(sum);
     }
 
-    // Helper to get Weekday Value (Sun=1...Sat=7) from JS Date (Sun=0...Sat=6)
     get_weekday_value(dateObj) {
-        return dateObj.getDay() + 1; 
+        return dateObj.getDay() + 1; // Sun=1, Mon=2...
     }
 }

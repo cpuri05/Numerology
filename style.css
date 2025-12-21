@@ -1,18 +1,18 @@
 :root {
-    /* Light Mode Palette (Default) */
-    --primary: #4f46e5;       /* Indigo 600 */
-    --primary-dark: #3730a3;  /* Indigo 800 */
-    --accent: #f59e0b;        /* Amber/Gold */
-    --bg: #f8fafc;            /* Slate 50 */
+    /* Light Mode Palette */
+    --primary: #4f46e5;       
+    --primary-dark: #3730a3;  
+    --accent: #f59e0b;        
+    --bg: #f8fafc;            
     --card-bg: #ffffff;
-    --text: #1e293b;          /* Slate 800 */
-    --text-muted: #64748b;    /* Slate 500 */
+    --text: #1e293b;          
+    --text-muted: #64748b;    
     --border: #e2e8f0;
     
     /* Status Colors */
-    --friend: #10b981;        /* Emerald */
-    --neutral: #64748b;       /* Slate Grey */
-    --enemy: #ef4444;         /* Red */
+    --friend: #10b981;        
+    --neutral: #64748b;       
+    --enemy: #ef4444;         
     
     /* Shadows */
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -22,13 +22,13 @@
 @media (prefers-color-scheme: dark) {
     :root {
         /* Dark Mode Palette */
-        --primary: #818cf8;       /* Indigo 400 */
-        --primary-dark: #6366f1;  /* Indigo 500 */
-        --accent: #fbbf24;        /* Amber 400 */
-        --bg: #0f172a;            /* Slate 900 */
-        --card-bg: #1e293b;       /* Slate 800 */
-        --text: #f1f5f9;          /* Slate 100 */
-        --text-muted: #94a3b8;    /* Slate 400 */
+        --primary: #818cf8;       
+        --primary-dark: #6366f1;  
+        --accent: #fbbf24;        
+        --bg: #0f172a;            
+        --card-bg: #1e293b;       
+        --text: #f1f5f9;          
+        --text-muted: #94a3b8;    
         --border: #334155;
     }
 }
@@ -115,7 +115,7 @@ main {
     cursor: pointer;
     color: var(--text-muted);
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     transition: all 0.2s ease;
 }
 
@@ -205,10 +205,9 @@ input:focus, select:focus {
     text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
 }
 
-/* Profile Box (Lucky Numbers) */
 .profile-box {
     text-align: left;
-    background: rgba(99, 102, 241, 0.05); /* Very light primary tint */
+    background: rgba(99, 102, 241, 0.05); 
     padding: 15px 20px;
     border-radius: 12px;
     margin-bottom: 20px;
@@ -234,11 +233,10 @@ input:focus, select:focus {
     margin: 20px 0;
 }
 
-/* Suitability Badge */
 .suitability-badge {
     margin-top: 15px;
     padding: 12px 20px;
-    border-radius: 50px; /* Pill shape */
+    border-radius: 50px; 
     color: white;
     font-weight: 700;
     display: inline-block;
@@ -247,7 +245,6 @@ input:focus, select:focus {
     font-size: 0.95rem;
 }
 
-/* Compatibility Grid */
 .comparison-grid {
     display: flex;
     justify-content: space-around;
@@ -270,17 +267,13 @@ input:focus, select:focus {
     text-transform: uppercase;
 }
 
-/* Status Colors Classes */
 .status-Friend { background-color: var(--friend); }
 .status-Neutral { background-color: var(--neutral); color: white; }
 .status-Enemy { background-color: var(--enemy); }
 
-/* Utilities */
 .hidden { display: none !important; }
 
-/* Paste at the end of style.css */
-
-/* Forecast Cards */
+/* --- Forecast Cards --- */
 .forecast-card {
     background: var(--card-bg);
     border-radius: 12px;
@@ -344,7 +337,7 @@ input:focus, select:focus {
     margin-top: 4px;
 }
 
-/* Status Borders for Forecast Cards */
+/* Status Borders for Forecast */
 .status-Friend-border {
     border-left-color: var(--friend);
     background: linear-gradient(to right, rgba(16, 185, 129, 0.05), var(--card-bg));
