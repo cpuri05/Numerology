@@ -93,6 +93,24 @@ class NumerologyEngine {
         return Array.from(lucky_set).sort((a, b) => a - b);
     }
 
+    get_friendly_numbers(basic_num) {
+        if (!basic_num) return [];
+        const rel = this.RELATIONSHIPS[basic_num];
+        return rel ? rel.friends.sort((a, b) => a - b) : [];
+    }
+
+    get_neutral_numbers(basic_num) {
+        if (!basic_num) return [];
+        const rel = this.RELATIONSHIPS[basic_num];
+        return rel ? rel.neutral.sort((a, b) => a - b) : [];
+    }
+
+    get_enemy_numbers(basic_num) {
+        if (!basic_num) return [];
+        const rel = this.RELATIONSHIPS[basic_num];
+        return rel ? rel.enemy.sort((a, b) => a - b) : [];
+    }
+
     analyze_name_suitability(name_vib, basic_num, lucky_list) {
         if (lucky_list.includes(name_vib)) return { status: "Excellent", code: "lucky_match" };
         const rel = this.check_compatibility(basic_num, name_vib);
