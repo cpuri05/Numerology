@@ -3,11 +3,12 @@
 const translations = {
     en: {
         app_title: "Numerology",
-        tab_single: "Single Analysis",
+        tab_single: "Number Analysis",
         tab_compat: "Compatibility",
-        tab_forecast: "Forecast", // NEW
+        tab_forecast: "Forecast",
+        tab_profiles: "Saved Profiles",
         lbl_dob: "Date of Birth",
-        lbl_target_date: "Forecast Date", // NEW
+        lbl_target_date: "Forecast Date",
         lbl_category: "Category",
         lbl_value: "Enter Name/Text",
         opt_name: "Name",
@@ -16,7 +17,9 @@ const translations = {
         opt_custom: "Other...",
         btn_calc: "Analyze",
         btn_compare: "Check Compatibility",
-        btn_forecast: "Get Horoscope", // NEW
+        btn_forecast: "Get Horoscope",
+        btn_save: "💾 Save Profile",
+        btn_clear_all: "🗑️ Clear All Profiles",
         lbl_person_a: "First Name/Entity",
         lbl_person_b: "Second Name/Entity",
         res_prefix: "The",
@@ -32,22 +35,41 @@ const translations = {
         suit_good: "Good Match (Friendly)",
         suit_neut: "Neutral Match",
         suit_avoid: "Avoid / Challenging (Enemy)",
-        // Forecast Specific
         fc_year: "Yearly Influence (Varshank)",
         fc_month: "Monthly Influence (Masank)",
         fc_day: "Daily Influence (Dinank)",
         fc_favorable: "Favorable",
         fc_normal: "Normal",
         fc_unfavorable: "Unfavorable/Caution",
-        fc_ruler: "Ruler"
+        fc_ruler: "Ruler",
+        // Profile Management
+        total_profiles: "Total Profiles",
+        no_profiles: "No saved profiles yet",
+        no_profiles_hint: "Analyze a name and save it to see it here",
+        search_placeholder: "Search profiles...",
+        modal_title: "Save Profile",
+        modal_name: "Profile Name",
+        modal_cancel: "Cancel",
+        modal_save: "Save",
+        profile_saved: "Profile saved successfully!",
+        profile_deleted: "Profile deleted",
+        confirm_delete: "Delete this profile?",
+        confirm_clear_all: "Delete ALL profiles? This cannot be undone.",
+        profile_dob: "DOB",
+        profile_category: "Category",
+        profile_vibration: "Vibration",
+        profile_status: "Status",
+        btn_load: "Load",
+        btn_delete: "Delete"
     },
     hi: {
         app_title: "अंकज्योतिष",
-        tab_single: "एकल विश्लेषण",
+        tab_single: "अंक विश्लेषण",
         tab_compat: "मैत्री चक्र",
-        tab_forecast: "वर्षफल", // NEW
+        tab_forecast: "वर्षफल",
+        tab_profiles: "सहेजे प्रोफाइल",
         lbl_dob: "जन्म तिथि",
-        lbl_target_date: "भविष्यफल तिथि", // NEW
+        lbl_target_date: "भविष्यफल तिथि",
         lbl_category: "श्रेणी",
         lbl_value: "नाम दर्ज करें",
         opt_name: "नाम",
@@ -56,7 +78,9 @@ const translations = {
         opt_custom: "अन्य...",
         btn_calc: "विश्लेषण करें",
         btn_compare: "मैत्री जांचें",
-        btn_forecast: "भविष्यफल देखें", // NEW
+        btn_forecast: "भविष्यफल देखें",
+        btn_save: "💾 प्रोफाइल सहेजें",
+        btn_clear_all: "🗑️ सभी प्रोफाइल हटाएं",
         lbl_person_a: "पहला नाम",
         lbl_person_b: "दूसरा नाम",
         res_prefix: "",
@@ -72,26 +96,48 @@ const translations = {
         suit_good: "शुभ (मित्र अंक)",
         suit_neut: "सम (साधारण)",
         suit_avoid: "अशुभ / शत्रु (बचें)",
-        // Forecast Specific
         fc_year: "वर्षफल (वरशंक)",
         fc_month: "मासफल (मासंक)",
         fc_day: "दैनिक फल (दिनांक)",
         fc_favorable: "शुभ (Favorable)",
         fc_normal: "सम (Normal)",
         fc_unfavorable: "अशुभ (Unfavorable)",
-        fc_ruler: "स्वामी"
+        fc_ruler: "स्वामी",
+        // Profile Management
+        total_profiles: "कुल प्रोफाइल",
+        no_profiles: "अभी तक कोई प्रोफाइल नहीं",
+        no_profiles_hint: "नाम का विश्लेषण करें और यहां देखने के लिए सहेजें",
+        search_placeholder: "प्रोफाइल खोजें...",
+        modal_title: "प्रोफाइल सहेजें",
+        modal_name: "प्रोफाइल का नाम",
+        modal_cancel: "रद्द करें",
+        modal_save: "सहेजें",
+        profile_saved: "प्रोफाइल सहेजा गया!",
+        profile_deleted: "प्रोफाइल हटाया गया",
+        confirm_delete: "इस प्रोफाइल को हटाएं?",
+        confirm_clear_all: "सभी प्रोफाइल हटाएं? यह पूर्ववत नहीं किया जा सकता।",
+        profile_dob: "जन्म तिथि",
+        profile_category: "श्रेणी",
+        profile_vibration: "मूलांक",
+        profile_status: "स्थिति",
+        btn_load: "लोड करें",
+        btn_delete: "हटाएं"
     }
 };
 
 let currentLang = 'en';
 let engine;
+let storage;
+let lastAnalysisData = null;
 
-// UI Elements (Add new ones)
+// UI Elements
 let langSwitch, categorySelect, categoryCustom, inputText, inputDob, btnCalculate;
 let resultArea, resultMsg, resultNum, resBasicNum, resLuckyList, suitabilityBox;
 let inputA, inputB, btnCompare, compatResultArea, numADisp, numBDisp, nameADisp, nameBDisp, relationStatus, compatDesc;
-let sectionSingle, sectionCompat, sectionForecast;
-let tabSingle, tabCompat, tabForecast;
+let sectionSingle, sectionCompat, sectionForecast, sectionProfiles;
+let tabSingle, tabCompat, tabForecast, tabProfiles;
+let btnSaveProfile, saveModal, modalProfileName, modalSave, modalCancel;
+let profilesList, emptyState, profileCount, searchProfiles, btnClearAll;
 
 // Forecast Elements
 let inputDobFc, inputTargetDate, btnForecast, forecastResultArea;
@@ -101,16 +147,19 @@ let statusYear, statusMonth, statusDay;
 
 document.addEventListener('DOMContentLoaded', () => {
     engine = new NumerologyEngine();
+    storage = new ProfileStorage();
     
-    // ... (Previous Reference bindings) ...
+    // Reference bindings
     langSwitch = document.getElementById('lang-switch');
     sectionSingle = document.getElementById('section-single');
     sectionCompat = document.getElementById('section-compat');
-    sectionForecast = document.getElementById('section-forecast'); // NEW
+    sectionForecast = document.getElementById('section-forecast');
+    sectionProfiles = document.getElementById('section-profiles');
 
     tabSingle = document.getElementById('tab-single');
     tabCompat = document.getElementById('tab-compat');
-    tabForecast = document.getElementById('tab-forecast'); // NEW
+    tabForecast = document.getElementById('tab-forecast');
+    tabProfiles = document.getElementById('tab-profiles');
 
     // Single Logic References
     categorySelect = document.getElementById('category-select');
@@ -148,6 +197,18 @@ document.addEventListener('DOMContentLoaded', () => {
     cardMonth = document.getElementById('card-month');
     cardDay = document.getElementById('card-day');
 
+    // Profile Management References
+    btnSaveProfile = document.getElementById('btn-save-profile');
+    saveModal = document.getElementById('save-modal');
+    modalProfileName = document.getElementById('modal-profile-name');
+    modalSave = document.getElementById('modal-save');
+    modalCancel = document.getElementById('modal-cancel');
+    profilesList = document.getElementById('profiles-list');
+    emptyState = document.getElementById('empty-state');
+    profileCount = document.getElementById('profile-count');
+    searchProfiles = document.getElementById('search-profiles');
+    btnClearAll = document.getElementById('btn-clear-all');
+
     // Set Default Date to Today for Target
     inputTargetDate.valueAsDate = new Date();
 
@@ -184,15 +245,18 @@ document.addEventListener('DOMContentLoaded', () => {
     tabSingle.addEventListener('click', () => switchTab('single'));
     tabCompat.addEventListener('click', () => switchTab('compat'));
     tabForecast.addEventListener('click', () => switchTab('forecast'));
+    tabProfiles.addEventListener('click', () => switchTab('profiles'));
 
     function switchTab(tabName) {
         sectionSingle.classList.add('hidden');
         sectionCompat.classList.add('hidden');
         sectionForecast.classList.add('hidden');
+        sectionProfiles.classList.add('hidden');
         
         tabSingle.classList.remove('active');
         tabCompat.classList.remove('active');
         tabForecast.classList.remove('active');
+        tabProfiles.classList.remove('active');
 
         if(tabName === 'single') {
             sectionSingle.classList.remove('hidden');
@@ -200,13 +264,17 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if(tabName === 'compat') {
             sectionCompat.classList.remove('hidden');
             tabCompat.classList.add('active');
-        } else {
+        } else if(tabName === 'forecast') {
             sectionForecast.classList.remove('hidden');
             tabForecast.classList.add('active');
             // Auto-fill DOB if entered in single tab
             if(inputDob.value && !inputDobFc.value) {
                 inputDobFc.value = inputDob.value;
             }
+        } else if(tabName === 'profiles') {
+            sectionProfiles.classList.remove('hidden');
+            tabProfiles.classList.add('active');
+            loadProfiles();
         }
     }
 
@@ -303,6 +371,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let categoryLabel = categorySelect.options[categorySelect.selectedIndex].text;
         if (categorySelect.value === 'Custom') categoryLabel = categoryCustom.value || "Custom";
+        
+        // Store last analysis for saving
+        lastAnalysisData = {
+            name: text,
+            dob: dob,
+            category: categoryLabel,
+            text: text,
+            basicNumber: dateMetrics.day_number,
+            luckyNumbers: luckyNumbers,
+            vibration: nameVibration,
+            suitability: suitability.status,
+            suitabilityCode: suitability.code
+        };
 
         resBasicNum.textContent = dateMetrics.day_number;
         resLuckyList.textContent = luckyNumbers.join(", ");
@@ -354,5 +435,164 @@ document.addEventListener('DOMContentLoaded', () => {
             compatDesc.innerHTML = `${textA} (${numA}) and ${textB} (${numB}) ${t.rel_desc} <strong>${displayRel}s</strong>.`;
         }
         compatResultArea.classList.remove('hidden');
+    });
+
+    // --- PROFILE MANAGEMENT ---
+    
+    // Save Profile Button
+    btnSaveProfile.addEventListener('click', () => {
+        if (!lastAnalysisData) return;
+        modalProfileName.value = lastAnalysisData.name;
+        saveModal.classList.remove('hidden');
+        modalProfileName.focus();
+    });
+
+    // Modal Save
+    modalSave.addEventListener('click', () => {
+        const profileName = modalProfileName.value.trim();
+        if (!profileName) return alert(currentLang === 'hi' ? 'कृपया नाम दर्ज करें' : 'Please enter a name');
+        
+        const result = storage.saveProfile({
+            ...lastAnalysisData,
+            name: profileName
+        });
+        
+        if (result.success) {
+            saveModal.classList.add('hidden');
+            const t = translations[currentLang];
+            alert(t.profile_saved);
+        } else {
+            alert(result.error);
+        }
+    });
+
+    // Modal Cancel
+    modalCancel.addEventListener('click', () => {
+        saveModal.classList.add('hidden');
+    });
+
+    // Close modal on background click
+    saveModal.addEventListener('click', (e) => {
+        if (e.target === saveModal) {
+            saveModal.classList.add('hidden');
+        }
+    });
+
+    // Load Profiles
+    function loadProfiles(searchQuery = '') {
+        const profiles = searchQuery ? storage.searchProfiles(searchQuery) : storage.getAllProfiles();
+        const t = translations[currentLang];
+        
+        profileCount.textContent = storage.getCount();
+        
+        if (profiles.length === 0) {
+            profilesList.innerHTML = '';
+            emptyState.classList.remove('hidden');
+            btnClearAll.classList.add('hidden');
+        } else {
+            emptyState.classList.add('hidden');
+            btnClearAll.classList.remove('hidden');
+            renderProfiles(profiles);
+        }
+    }
+
+    // Render Profile Cards
+    function renderProfiles(profiles) {
+        const t = translations[currentLang];
+        profilesList.innerHTML = profiles.map(profile => `
+            <div class="profile-card" data-id="${profile.id}">
+                <div class="profile-card-header">
+                    <div>
+                        <h3 class="profile-name">${profile.name}</h3>
+                        <div class="profile-date">${new Date(profile.createdAt).toLocaleDateString(currentLang === 'hi' ? 'hi-IN' : 'en-US')}</div>
+                    </div>
+                </div>
+                <div class="profile-card-body">
+                    <div class="profile-info-item">
+                        <span class="profile-info-label">${t.profile_dob}</span>
+                        <span class="profile-info-value">${new Date(profile.dob).toLocaleDateString(currentLang === 'hi' ? 'hi-IN' : 'en-US')}</span>
+                    </div>
+                    <div class="profile-info-item">
+                        <span class="profile-info-label">${t.profile_category}</span>
+                        <span class="profile-info-value">${profile.category}</span>
+                    </div>
+                    <div class="profile-info-item">
+                        <span class="profile-info-label">${t.profile_vibration}</span>
+                        <span class="profile-info-value">${profile.results.vibration}</span>
+                    </div>
+                    <div class="profile-info-item">
+                        <span class="profile-info-label">${t.profile_status}</span>
+                        <span class="profile-info-value">${profile.results.suitability}</span>
+                    </div>
+                </div>
+                <div class="profile-card-footer">
+                    <button class="profile-btn profile-btn-load" data-action="load" data-id="${profile.id}">${t.btn_load}</button>
+                    <button class="profile-btn profile-btn-delete" data-action="delete" data-id="${profile.id}">${t.btn_delete}</button>
+                </div>
+            </div>
+        `).join('');
+
+        // Add event listeners to buttons
+        document.querySelectorAll('[data-action="load"]').forEach(btn => {
+            btn.addEventListener('click', (e) => loadProfile(e.target.dataset.id));
+        });
+        
+        document.querySelectorAll('[data-action="delete"]').forEach(btn => {
+            btn.addEventListener('click', (e) => deleteProfile(e.target.dataset.id));
+        });
+    }
+
+    // Load Profile into Analyzer
+    function loadProfile(id) {
+        const profile = storage.getProfile(id);
+        if (!profile) return;
+        
+        inputDob.value = profile.dob;
+        inputText.value = profile.text;
+        
+        // Set category
+        const categoryValue = profile.category;
+        let found = false;
+        for (let i = 0; i < categorySelect.options.length; i++) {
+            if (categorySelect.options[i].text === categoryValue) {
+                categorySelect.selectedIndex = i;
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            categorySelect.value = 'Custom';
+            categoryCustom.value = categoryValue;
+            categoryCustom.classList.remove('hidden');
+        }
+        
+        switchTab('single');
+    }
+
+    // Delete Profile
+    function deleteProfile(id) {
+        const t = translations[currentLang];
+        if (!confirm(t.confirm_delete)) return;
+        
+        const result = storage.deleteProfile(id);
+        if (result.success) {
+            loadProfiles(searchProfiles.value);
+        }
+    }
+
+    // Search Profiles
+    searchProfiles.addEventListener('input', (e) => {
+        loadProfiles(e.target.value);
+    });
+
+    // Clear All Profiles
+    btnClearAll.addEventListener('click', () => {
+        const t = translations[currentLang];
+        if (!confirm(t.confirm_clear_all)) return;
+        
+        const result = storage.clearAll();
+        if (result.success) {
+            loadProfiles();
+        }
     });
 });

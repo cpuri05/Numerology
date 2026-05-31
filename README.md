@@ -8,13 +8,14 @@ Jyoni_numero is a bilingual (English/Hindi) numerology application that provides
 
 ## Features
 
-### 1. Single Analysis
+### 1. Number Analysis
 Analyze the numerological vibration of names, business names, vehicle numbers, or any custom text:
 - Calculate vibration numbers for any text input
 - Determine basic number (Moolank) from date of birth
 - Identify lucky numbers based on planetary relationships
 - Assess suitability/compatibility between your birth date and chosen names/numbers
 - Get recommendations (Excellent, Good, Neutral, or Avoid)
+- Save analyzed profiles for future reference
 
 ### 2. Compatibility Checker
 Check the numerological compatibility between two entities:
@@ -31,12 +32,22 @@ Get personalized numerological forecasts for any date:
 - Each forecast shows whether the period is Favorable, Normal, or Unfavorable
 - Hierarchical view showing how daily influences nest within monthly and yearly cycles
 
+### 4. Saved Profiles
+Manage and access your previously analyzed numerology profiles:
+- **Save Profiles**: Store analyzed names/entities with all calculated results
+- **Quick Access**: View all saved profiles in one place
+- **Search & Filter**: Find specific profiles quickly
+- **Load & Re-analyze**: Load any saved profile back into the analyzer
+- **Local Storage**: All data stored locally on your device (offline-capable)
+- **Profile Management**: Delete individual profiles or clear all at once
+
 ### Additional Features
 - **Bilingual Support**: Switch between English and Hindi (हिंदी)
 - **Offline Capability**: Works without internet connection after first load
 - **Installable**: Can be installed as a standalone app on mobile and desktop
 - **Responsive Design**: Adapts to all screen sizes
 - **Dark/Light Theme**: Automatic theme adaptation based on system preferences
+- **Profile Storage**: Save and manage unlimited numerology profiles locally
 
 ## How to Launch
 
@@ -75,8 +86,8 @@ Then open `http://localhost:8000` in your browser
 
 ## Usage Guide
 
-### Single Analysis
-1. Select the **Single Analysis** tab
+### Number Analysis
+1. Select the **Number Analysis** tab
 2. Enter your **Date of Birth**
 3. Choose a **Category** (Name, Business Name, Vehicle Number, or Custom)
 4. Enter the **text/name** you want to analyze
@@ -84,6 +95,7 @@ Then open `http://localhost:8000` in your browser
    - Your basic number and lucky numbers
    - The vibration number of the entered text
    - Suitability verdict with color-coded recommendation
+6. Click **💾 Save Profile** to store the analysis for future reference
 
 ### Compatibility Check
 1. Select the **Compatibility** tab
@@ -104,6 +116,16 @@ Then open `http://localhost:8000` in your browser
    - Daily influence with status
    - Color-coded indicators (Green=Favorable, Gray=Normal, Red=Unfavorable)
 
+### Saved Profiles
+1. Select the **Saved Profiles** tab
+2. View all your saved numerology profiles
+3. Use the **search box** to filter profiles by name
+4. Click **Load** on any profile to:
+   - Auto-fill the Number Analysis tab with saved data
+   - Re-analyze or modify the profile
+5. Click **Delete** to remove a profile
+6. Click **🗑️ Clear All Profiles** to delete all saved profiles
+
 ### Language Switching
 - Use the dropdown in the header to switch between English and हिंदी (Hindi)
 - All interface elements and results will update automatically
@@ -114,6 +136,7 @@ Then open `http://localhost:8000` in your browser
 - `index.html` - Main application interface
 - `app.js` - UI logic, event handlers, and translations
 - `numerology_core.js` - Core numerology calculation engine
+- `storage.js` - Profile storage and management (localStorage)
 - `style.css` - Styling and responsive design
 - `manifest.json` - PWA configuration
 - `service-worker.js` - Offline caching functionality
