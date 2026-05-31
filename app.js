@@ -9,6 +9,13 @@ const translations = {
         tab_profiles: "Saved Profiles",
         lbl_dob: "Date of Birth",
         lbl_target_date: "Forecast Date",
+        lbl_entity_type: "Entity Type",
+        opt_person: "Person",
+        opt_business_entity: "Business",
+        opt_vehicle_entity: "Vehicle",
+        opt_other: "Other",
+        lbl_person_name: "Person Name",
+        create_new: "Create New",
         lbl_category: "Category",
         lbl_value: "Enter Name/Text",
         opt_name: "Name",
@@ -25,7 +32,9 @@ const translations = {
         res_prefix: "The",
         res_vibration: "vibration is",
         res_basic_lbl: "Basic Number (Moolank)",
-        res_lucky_lbl: "Lucky Numbers",
+        res_friendly_lbl: "Friendly Numbers",
+        res_neutral_lbl: "Neutral Numbers",
+        res_enemy_lbl: "Enemy Numbers",
         rel_friend: "Friend",
         rel_neutral: "Neutral",
         rel_enemy: "Enemy",
@@ -60,7 +69,19 @@ const translations = {
         profile_vibration: "Vibration",
         profile_status: "Status",
         btn_load: "Load",
-        btn_delete: "Delete"
+        btn_delete: "Delete",
+        btn_export: "📥 Export Data",
+        btn_import: "📤 Import Data",
+        import_modal_title: "Import Profiles",
+        import_modal_desc: "How would you like to import the profiles?",
+        import_merge: "Merge with Existing",
+        import_replace: "Replace All",
+        export_success: "Profiles exported successfully!",
+        import_success: "Profiles imported successfully!",
+        import_merged: "profiles merged with existing data",
+        import_replaced: "All profiles replaced with imported data",
+        import_error: "Error importing file. Please check the file format.",
+        no_file_selected: "Please select a file to import"
     },
     hi: {
         app_title: "अंकज्योतिष",
@@ -70,6 +91,13 @@ const translations = {
         tab_profiles: "सहेजे प्रोफाइल",
         lbl_dob: "जन्म तिथि",
         lbl_target_date: "भविष्यफल तिथि",
+        lbl_entity_type: "इकाई प्रकार",
+        opt_person: "व्यक्ति",
+        opt_business_entity: "व्यापार",
+        opt_vehicle_entity: "वाहन",
+        opt_other: "अन्य",
+        lbl_person_name: "व्यक्ति का नाम",
+        create_new: "नया बनाएं",
         lbl_category: "श्रेणी",
         lbl_value: "नाम दर्ज करें",
         opt_name: "नाम",
@@ -86,7 +114,9 @@ const translations = {
         res_prefix: "",
         res_vibration: "का मूलांक है",
         res_basic_lbl: "मूलांक (Basic Number)",
-        res_lucky_lbl: "भाग्यशाली अंक",
+        res_friendly_lbl: "मित्र अंक",
+        res_neutral_lbl: "सम अंक",
+        res_enemy_lbl: "शत्रु अंक",
         rel_friend: "मित्र",
         rel_neutral: "सम (Neutral)",
         rel_enemy: "शत्रु",
@@ -121,7 +151,19 @@ const translations = {
         profile_vibration: "मूलांक",
         profile_status: "स्थिति",
         btn_load: "लोड करें",
-        btn_delete: "हटाएं"
+        btn_delete: "हटाएं",
+        btn_export: "📥 डेटा एक्सपोर्ट करें",
+        btn_import: "📤 डेटा इम्पोर्ट करें",
+        import_modal_title: "प्रोफाइल इम्पोर्ट करें",
+        import_modal_desc: "आप प्रोफाइल कैसे इम्पोर्ट करना चाहते हैं?",
+        import_merge: "मौजूदा के साथ मिलाएं",
+        import_replace: "सभी बदलें",
+        export_success: "प्रोफाइल एक्सपोर्ट हो गए!",
+        import_success: "प्रोफाइल इम्पोर्ट हो गए!",
+        import_merged: "प्रोफाइल मौजूदा डेटा के साथ मिला दिए गए",
+        import_replaced: "सभी प्रोफाइल इम्पोर्टेड डेटा से बदल दिए गए",
+        import_error: "फाइल इम्पोर्ट करने में त्रुटि। कृपया फाइल फॉर्मेट जांचें।",
+        no_file_selected: "कृपया इम्पोर्ट करने के लिए फाइल चुनें"
     }
 };
 
@@ -131,16 +173,16 @@ let storage;
 let lastAnalysisData = null;
 
 // UI Elements
-let langSwitch, categorySelect, categoryCustom, inputText, inputDob, btnCalculate;
-let resultArea, resultMsg, resultNum, resBasicNum, resLuckyList, suitabilityBox;
+let langSwitch, entityTypeSelect, inputText, inputDob, btnCalculate;
+let resultArea, resultMsg, resultNum, resBasicNum, resFriendlyList, resNeutralList, resEnemyList, suitabilityBox;
 let inputA, inputB, btnCompare, compatResultArea, numADisp, numBDisp, nameADisp, nameBDisp, relationStatus, compatDesc;
 let sectionSingle, sectionCompat, sectionForecast, sectionProfiles;
 let tabSingle, tabCompat, tabForecast, tabProfiles;
 let btnSaveProfile, saveModal, modalProfileName, modalSave, modalCancel;
-let profilesList, emptyState, profileCount, searchProfiles, btnClearAll;
+let profilesList, emptyState, profileCount, searchProfiles, btnClearAll, btnExport, btnImport, fileImport, importModal, importMerge, importReplace, importCancel;
 
 // Forecast Elements
-let inputDobFc, inputTargetDate, btnForecast, forecastResultArea;
+let inputNameFc, inputDobFc, inputTargetDate, btnForecast, forecastResultArea;
 let cardYear, cardMonth, cardDay;
 let valYear, valMonth, valDay;
 let statusYear, statusMonth, statusDay;
@@ -162,8 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
     tabProfiles = document.getElementById('tab-profiles');
 
     // Single Logic References
-    categorySelect = document.getElementById('category-select');
-    categoryCustom = document.getElementById('category-custom');
+    entityTypeSelect = document.getElementById('entity-type-select');
     inputText = document.getElementById('input-text');
     inputDob = document.getElementById('input-dob');
     btnCalculate = document.getElementById('btn-calculate');
@@ -171,7 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
     resultMsg = document.getElementById('result-message');
     resultNum = document.getElementById('result-number');
     resBasicNum = document.getElementById('res-basic-num');
-    resLuckyList = document.getElementById('res-lucky-list');
+    resFriendlyList = document.getElementById('res-friendly-list');
+    resNeutralList = document.getElementById('res-neutral-list');
+    resEnemyList = document.getElementById('res-enemy-list');
     suitabilityBox = document.getElementById('suitability-box');
 
     // Compat Logic References
@@ -186,7 +229,8 @@ document.addEventListener('DOMContentLoaded', () => {
     relationStatus = document.getElementById('relation-status');
     compatDesc = document.getElementById('compat-desc');
 
-    // Forecast Logic References // NEW
+    // Forecast Logic References
+    inputNameFc = document.getElementById('input-name-fc');
     inputDobFc = document.getElementById('input-dob-fc');
     inputTargetDate = document.getElementById('input-target-date');
     btnForecast = document.getElementById('btn-forecast');
@@ -208,9 +252,22 @@ document.addEventListener('DOMContentLoaded', () => {
     profileCount = document.getElementById('profile-count');
     searchProfiles = document.getElementById('search-profiles');
     btnClearAll = document.getElementById('btn-clear-all');
+    btnExport = document.getElementById('btn-export');
+    btnImport = document.getElementById('btn-import');
+    fileImport = document.getElementById('file-import');
+    importModal = document.getElementById('import-modal');
+    importMerge = document.getElementById('import-merge');
+    importReplace = document.getElementById('import-replace');
+    importCancel = document.getElementById('import-cancel');
 
     // Set Default Date to Today for Target
     inputTargetDate.valueAsDate = new Date();
+
+    // --- AUTOCOMPLETE SETUP ---
+    setupAutocomplete(inputText, 'autocomplete-list');
+    setupAutocomplete(inputA, 'autocomplete-list-a');
+    setupAutocomplete(inputB, 'autocomplete-list-b');
+    setupAutocomplete(inputNameFc, 'autocomplete-list-fc');
 
 
     // --- LANGUAGE FUNCTION ---
@@ -223,23 +280,113 @@ document.addEventListener('DOMContentLoaded', () => {
             if (t[key]) elem.textContent = t[key];
         });
 
-        // Update specific manual elements
-        categorySelect.options[0].textContent = t.opt_name;
-        categorySelect.options[1].textContent = t.opt_business;
-        categorySelect.options[2].textContent = t.opt_vehicle;
-        categorySelect.options[3].textContent = t.opt_custom;
+        // Update entity type options
+        entityTypeSelect.options[0].textContent = t.opt_person;
+        entityTypeSelect.options[1].textContent = t.opt_business_entity;
+        entityTypeSelect.options[2].textContent = t.opt_vehicle_entity;
+        entityTypeSelect.options[3].textContent = t.opt_other;
 
         if(lang === 'hi') {
-            inputText.placeholder = "जैसे: सूर्य एतर्प्राइज़";
+            inputText.placeholder = "जैसे: सूर्य";
             inputA.placeholder = "पहला नाम";
+            inputNameFc.placeholder = "नाम दर्ज करें";
         } else {
-            inputText.placeholder = "e.g., Alice Enterprise";
+            inputText.placeholder = "e.g., Alice";
             inputA.placeholder = "A";
+            inputNameFc.placeholder = "Enter name";
         }
     }
 
     langSwitch.addEventListener('change', (e) => updateLanguage(e.target.value));
     updateLanguage(currentLang);
+
+    // --- AUTOCOMPLETE FUNCTION ---
+    function setupAutocomplete(inputElement, listId) {
+        const listElement = document.getElementById(listId);
+        let currentFocus = -1;
+
+        inputElement.addEventListener('input', function() {
+            const val = this.value.trim();
+            closeAllLists();
+            if (!val) return;
+            currentFocus = -1;
+
+            const profiles = storage.searchProfiles(val);
+            const t = translations[currentLang];
+
+            if (profiles.length === 0) {
+                const createDiv = document.createElement('div');
+                createDiv.className = 'autocomplete-item create-new';
+                createDiv.innerHTML = `<strong>${t.create_new}:</strong> ${val}`;
+                createDiv.addEventListener('click', function() {
+                    inputElement.value = val;
+                    closeAllLists();
+                });
+                listElement.appendChild(createDiv);
+            } else {
+                profiles.forEach(profile => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'autocomplete-item';
+                    const dobStr = new Date(profile.dob).toLocaleDateString(currentLang === 'hi' ? 'hi-IN' : 'en-US');
+                    itemDiv.innerHTML = `<strong>${profile.name}</strong> (${dobStr})`;
+                    itemDiv.addEventListener('click', function() {
+                        inputElement.value = profile.name;
+                        inputElement.dataset.profileId = profile.id;
+                        
+                        // Auto-fill DOB if available
+                        if (inputElement === inputText && profile.dob) {
+                            inputDob.value = profile.dob;
+                        } else if (inputElement === inputNameFc && profile.dob) {
+                            inputDobFc.value = profile.dob;
+                        }
+                        
+                        closeAllLists();
+                    });
+                    listElement.appendChild(itemDiv);
+                });
+            }
+            listElement.style.display = 'block';
+        });
+
+        inputElement.addEventListener('keydown', function(e) {
+            let items = listElement.getElementsByClassName('autocomplete-item');
+            if (e.keyCode === 40) { // Down
+                currentFocus++;
+                addActive(items);
+            } else if (e.keyCode === 38) { // Up
+                currentFocus--;
+                addActive(items);
+            } else if (e.keyCode === 13) { // Enter
+                e.preventDefault();
+                if (currentFocus > -1 && items[currentFocus]) {
+                    items[currentFocus].click();
+                }
+            }
+        });
+
+        function addActive(items) {
+            if (!items) return;
+            removeActive(items);
+            if (currentFocus >= items.length) currentFocus = 0;
+            if (currentFocus < 0) currentFocus = items.length - 1;
+            items[currentFocus].classList.add('autocomplete-active');
+        }
+
+        function removeActive(items) {
+            for (let i = 0; i < items.length; i++) {
+                items[i].classList.remove('autocomplete-active');
+            }
+        }
+
+        function closeAllLists() {
+            listElement.innerHTML = '';
+            listElement.style.display = 'none';
+        }
+
+        document.addEventListener('click', function(e) {
+            if (e.target !== inputElement) closeAllLists();
+        });
+    }
 
     // --- TAB SWITCHING ---
     tabSingle.addEventListener('click', () => switchTab('single'));
@@ -280,10 +427,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- FORECAST LOGIC ---
     btnForecast.addEventListener('click', () => {
+        const name = inputNameFc.value.trim();
         const dob = inputDobFc.value;
         const target = inputTargetDate.value;
         const t = translations[currentLang];
 
+        if(!name) return alert(currentLang === 'hi' ? "कृपया नाम दर्ज करें" : "Please enter name");
         if(!dob || !target) return alert(currentLang === 'hi' ? "कृपया सभी तिथियां भरें" : "Please enter all dates");
 
         const dateObj = new Date(target);
@@ -348,29 +497,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // ... (Existing Event Listeners for other tabs) ...
     // Note: Re-paste the Calculate and Compare listeners here if you are overwriting the whole file,
     // or just append the forecast logic if you are editing incrementally.
-    categorySelect.addEventListener('change', (e) => {
-        if (e.target.value === 'Custom') {
-            categoryCustom.classList.remove('hidden');
-            categoryCustom.focus();
-        } else {
-            categoryCustom.classList.add('hidden');
-        }
-    });
-
     btnCalculate.addEventListener('click', () => {
         const text = inputText.value.trim();
         const dob = inputDob.value;
+        const entityType = entityTypeSelect.value;
         const t = translations[currentLang];
 
         if (!text || !dob) return alert(t.msg_enter_all);
 
         const nameVibration = engine.calculate_vibration(text);
         const dateMetrics = engine.calculate_date_metrics(dob);
+        const friendlyNumbers = engine.get_friendly_numbers(dateMetrics.day_number);
+        const neutralNumbers = engine.get_neutral_numbers(dateMetrics.day_number);
+        const enemyNumbers = engine.get_enemy_numbers(dateMetrics.day_number);
         const luckyNumbers = engine.get_lucky_numbers(dateMetrics);
         const suitability = engine.analyze_name_suitability(nameVibration, dateMetrics.day_number, luckyNumbers);
 
-        let categoryLabel = categorySelect.options[categorySelect.selectedIndex].text;
-        if (categorySelect.value === 'Custom') categoryLabel = categoryCustom.value || "Custom";
+        const categoryLabel = entityTypeSelect.options[entityTypeSelect.selectedIndex].text;
         
         // Store last analysis for saving
         lastAnalysisData = {
@@ -378,6 +521,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dob: dob,
             category: categoryLabel,
             text: text,
+            entityType: entityType,
             basicNumber: dateMetrics.day_number,
             luckyNumbers: luckyNumbers,
             vibration: nameVibration,
@@ -386,7 +530,9 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         resBasicNum.textContent = dateMetrics.day_number;
-        resLuckyList.textContent = luckyNumbers.join(", ");
+        resFriendlyList.textContent = friendlyNumbers.join(", ");
+        resNeutralList.textContent = neutralNumbers.join(", ");
+        resEnemyList.textContent = enemyNumbers.join(", ");
 
         if(currentLang === 'hi') {
             resultMsg.innerHTML = `${categoryLabel} <strong>"${text}"</strong> ${t.res_vibration}:`;
@@ -460,7 +606,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (result.success) {
             saveModal.classList.add('hidden');
             const t = translations[currentLang];
-            alert(t.profile_saved);
+            const msg = result.updated ? 
+                (currentLang === 'hi' ? 'प्रोफाइल अपडेट किया गया!' : 'Profile updated!') : 
+                t.profile_saved;
+            alert(msg);
         } else {
             alert(result.error);
         }
@@ -489,9 +638,11 @@ document.addEventListener('DOMContentLoaded', () => {
             profilesList.innerHTML = '';
             emptyState.classList.remove('hidden');
             btnClearAll.classList.add('hidden');
+            btnExport.classList.add('hidden');
         } else {
             emptyState.classList.add('hidden');
             btnClearAll.classList.remove('hidden');
+            btnExport.classList.remove('hidden');
             renderProfiles(profiles);
         }
     }
@@ -514,7 +665,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>
                     <div class="profile-info-item">
                         <span class="profile-info-label">${t.profile_category}</span>
-                        <span class="profile-info-value">${profile.category}</span>
+                        <span class="profile-info-value">${profile.entityType || profile.category}</span>
                     </div>
                     <div class="profile-info-item">
                         <span class="profile-info-label">${t.profile_vibration}</span>
@@ -550,21 +701,8 @@ document.addEventListener('DOMContentLoaded', () => {
         inputDob.value = profile.dob;
         inputText.value = profile.text;
         
-        // Set category
-        const categoryValue = profile.category;
-        let found = false;
-        for (let i = 0; i < categorySelect.options.length; i++) {
-            if (categorySelect.options[i].text === categoryValue) {
-                categorySelect.selectedIndex = i;
-                found = true;
-                break;
-            }
-        }
-        if (!found) {
-            categorySelect.value = 'Custom';
-            categoryCustom.value = categoryValue;
-            categoryCustom.classList.remove('hidden');
-        }
+        // Set entity type
+        entityTypeSelect.value = profile.entityType || 'Person';
         
         switchTab('single');
     }
@@ -593,6 +731,89 @@ document.addEventListener('DOMContentLoaded', () => {
         const result = storage.clearAll();
         if (result.success) {
             loadProfiles();
+        }
+    });
+
+    // --- EXPORT/IMPORT FUNCTIONALITY ---
+    
+    // Export Profiles
+    btnExport.addEventListener('click', () => {
+        const result = storage.exportProfiles();
+        if (result.success) {
+            const t = translations[currentLang];
+            alert(t.export_success);
+        }
+    });
+
+    // Import Button Click
+    btnImport.addEventListener('click', () => {
+        fileImport.click();
+    });
+
+    // File Selected
+    let importedData = null;
+    fileImport.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                importedData = JSON.parse(event.target.result);
+                // Validate data
+                if (!Array.isArray(importedData)) {
+                    throw new Error('Invalid format');
+                }
+                // Show import options modal
+                importModal.classList.remove('hidden');
+            } catch (error) {
+                const t = translations[currentLang];
+                alert(t.import_error);
+                importedData = null;
+            }
+        };
+        reader.readAsText(file);
+        // Reset file input
+        e.target.value = '';
+    });
+
+    // Import Merge
+    importMerge.addEventListener('click', () => {
+        if (!importedData) return;
+        const result = storage.importProfiles(importedData, 'merge');
+        if (result.success) {
+            const t = translations[currentLang];
+            alert(`${t.import_success} (${result.count} ${t.import_merged})`);
+            loadProfiles();
+        }
+        importModal.classList.add('hidden');
+        importedData = null;
+    });
+
+    // Import Replace
+    importReplace.addEventListener('click', () => {
+        if (!importedData) return;
+        const result = storage.importProfiles(importedData, 'replace');
+        if (result.success) {
+            const t = translations[currentLang];
+            alert(`${t.import_success} (${result.count} ${t.import_replaced})`);
+            loadProfiles();
+        }
+        importModal.classList.add('hidden');
+        importedData = null;
+    });
+
+    // Import Cancel
+    importCancel.addEventListener('click', () => {
+        importModal.classList.add('hidden');
+        importedData = null;
+    });
+
+    // Close import modal on background click
+    importModal.addEventListener('click', (e) => {
+        if (e.target === importModal) {
+            importModal.classList.add('hidden');
+            importedData = null;
         }
     });
 });

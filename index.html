@@ -41,19 +41,19 @@
             </div>
 
             <div class="input-group">
-                <label data-i18n="lbl_category">Category</label>
-                <select id="category-select">
-                    <option value="Name" data-i18n="opt_name">Name</option>
-                    <option value="Business Name" data-i18n="opt_business">Business Name</option>
-                    <option value="Vehicle Number" data-i18n="opt_vehicle">Vehicle Number</option>
-                    <option value="Custom" data-i18n="opt_custom">Other (Custom)...</option>
+                <label data-i18n="lbl_entity_type">Entity Type</label>
+                <select id="entity-type-select">
+                    <option value="Person" data-i18n="opt_person">Person</option>
+                    <option value="Business" data-i18n="opt_business_entity">Business</option>
+                    <option value="Vehicle" data-i18n="opt_vehicle_entity">Vehicle</option>
+                    <option value="Other" data-i18n="opt_other">Other</option>
                 </select>
-                <input type="text" id="category-custom" placeholder="Enter Category Name" class="hidden">
             </div>
 
-            <div class="input-group">
-                <label data-i18n="lbl_value">Enter Text</label>
-                <input type="text" id="input-text" placeholder="e.g., Alice Enterprise">
+            <div class="input-group autocomplete-wrapper">
+                <label data-i18n="lbl_value">Enter Name</label>
+                <input type="text" id="input-text" placeholder="e.g., Alice" autocomplete="off">
+                <div id="autocomplete-list" class="autocomplete-items"></div>
             </div>
 
             <button id="btn-calculate" class="action-btn" data-i18n="btn_calc">Calculate Vibration</button>
@@ -64,7 +64,9 @@
                 <!-- Personal Numerology Profile -->
                 <div class="profile-box">
                     <p><span data-i18n="res_basic_lbl">Basic Number</span>: <strong id="res-basic-num"></strong></p>
-                    <p><span data-i18n="res_lucky_lbl">Lucky Numbers</span>: <strong id="res-lucky-list" class="highlight-text"></strong></p>
+                    <p><span data-i18n="res_friendly_lbl">Friendly Numbers</span>: <strong id="res-friendly-list" class="highlight-text"></strong></p>
+                    <p><span data-i18n="res_neutral_lbl">Neutral Numbers</span>: <strong id="res-neutral-list" class="neutral-text"></strong></p>
+                    <p><span data-i18n="res_enemy_lbl">Enemy Numbers</span>: <strong id="res-enemy-list" class="enemy-text"></strong></p>
                 </div>
 
                 <hr class="divider">
@@ -83,14 +85,16 @@
 
         <!-- SECTION 2: COMPATIBILITY -->
         <section id="section-compat" class="hidden">
-            <div class="input-group">
+            <div class="input-group autocomplete-wrapper">
                 <label data-i18n="lbl_person_a">First Name/Entity</label>
-                <input type="text" id="compat-input-a" placeholder="A">
+                <input type="text" id="compat-input-a" placeholder="A" autocomplete="off">
+                <div id="autocomplete-list-a" class="autocomplete-items"></div>
             </div>
             
-            <div class="input-group">
+            <div class="input-group autocomplete-wrapper">
                 <label data-i18n="lbl_person_b">Second Name/Entity</label>
-                <input type="text" id="compat-input-b" placeholder="B">
+                <input type="text" id="compat-input-b" placeholder="B" autocomplete="off">
+                <div id="autocomplete-list-b" class="autocomplete-items"></div>
             </div>
 
             <button id="btn-compare" class="action-btn" data-i18n="btn_compare">Check Compatibility</button>
@@ -113,6 +117,12 @@
 
         <!-- SECTION 3: FORECAST -->
         <section id="section-forecast" class="hidden">
+            <div class="input-group autocomplete-wrapper">
+                <label data-i18n="lbl_person_name">Person Name</label>
+                <input type="text" id="input-name-fc" placeholder="Enter name" autocomplete="off">
+                <div id="autocomplete-list-fc" class="autocomplete-items"></div>
+            </div>
+            
             <div class="input-group">
                 <label data-i18n="lbl_dob">Date of Birth</label>
                 <input type="date" id="input-dob-fc">
@@ -187,6 +197,12 @@
                 <p class="empty-hint" data-i18n="no_profiles_hint">Analyze a name and save it to see it here</p>
             </div>
 
+            <div class="profile-actions">
+                <button id="btn-export" class="export-btn hidden" data-i18n="btn_export">📥 Export Data</button>
+                <button id="btn-import" class="import-btn" data-i18n="btn_import">📤 Import Data</button>
+                <input type="file" id="file-import" accept=".json" class="hidden">
+            </div>
+
             <button id="btn-clear-all" class="clear-all-btn hidden" data-i18n="btn_clear_all">🗑️ Clear All Profiles</button>
         </section>
     </main>
@@ -202,6 +218,19 @@
             <div class="modal-actions">
                 <button id="modal-cancel" class="modal-btn-secondary" data-i18n="modal_cancel">Cancel</button>
                 <button id="modal-save" class="modal-btn-primary" data-i18n="modal_save">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import Options Modal -->
+    <div id="import-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3 data-i18n="import_modal_title">Import Profiles</h3>
+            <p data-i18n="import_modal_desc">How would you like to import the profiles?</p>
+            <div class="modal-actions">
+                <button id="import-merge" class="modal-btn-primary" data-i18n="import_merge">Merge with Existing</button>
+                <button id="import-replace" class="modal-btn-secondary" data-i18n="import_replace">Replace All</button>
+                <button id="import-cancel" class="modal-btn-secondary" data-i18n="modal_cancel">Cancel</button>
             </div>
         </div>
     </div>

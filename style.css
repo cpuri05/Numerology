@@ -226,6 +226,16 @@ input:focus, select:focus {
     font-weight: 800;
 }
 
+.neutral-text {
+    color: var(--neutral);
+    font-weight: 800;
+}
+
+.enemy-text {
+    color: var(--enemy);
+    font-weight: 800;
+}
+
 .divider {
     border: 0;
     height: 1px;
@@ -529,6 +539,41 @@ input:focus, select:focus {
     color: white;
 }
 
+/* Export/Import Buttons */
+.profile-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.export-btn, .import-btn {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid var(--primary);
+    background: transparent;
+    color: var(--primary);
+    border-radius: 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.export-btn:hover, .import-btn:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.import-btn {
+    border-color: var(--friend);
+    color: var(--friend);
+}
+
+.import-btn:hover {
+    background: var(--friend);
+    color: white;
+}
+
 /* Modal */
 .modal {
     position: fixed;
@@ -599,4 +644,55 @@ input:focus, select:focus {
 .modal-btn-secondary:hover {
     background: var(--text-muted);
     color: white;
+}
+
+/* Autocomplete Styles */
+.autocomplete-wrapper {
+    position: relative;
+}
+
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid var(--border);
+    border-top: none;
+    z-index: 99;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 250px;
+    overflow-y: auto;
+    background: var(--card-bg);
+    border-radius: 0 0 12px 12px;
+    box-shadow: var(--shadow-md);
+    display: none;
+}
+
+.autocomplete-item {
+    padding: 12px 14px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.9rem;
+    color: var(--text);
+    transition: background 0.2s;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.autocomplete-active {
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.autocomplete-item strong {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.autocomplete-item.create-new {
+    background: rgba(16, 185, 129, 0.05);
+    color: var(--friend);
+    font-weight: 600;
+    border-left: 3px solid var(--friend);
+}
+
+.autocomplete-item.create-new:hover {
+    background: rgba(16, 185, 129, 0.15);
 }
