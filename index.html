@@ -26,9 +26,10 @@
     <main>
         <!-- TABS -->
         <div class="tabs">
-            <button id="tab-single" class="active" data-i18n="tab_single">Single Analysis</button>
+            <button id="tab-single" class="active" data-i18n="tab_single">Number Analysis</button>
             <button id="tab-compat" data-i18n="tab_compat">Compatibility</button>
             <button id="tab-forecast" data-i18n="tab_forecast">Forecast</button>
+            <button id="tab-profiles" data-i18n="tab_profiles">Saved Profiles</button>
         </div>
 
         <!-- SECTION 1: SINGLE ANALYSIS -->
@@ -74,6 +75,9 @@
                 
                 <!-- Suitability Verdict -->
                 <div id="suitability-box" class="suitability-badge"></div>
+                
+                <!-- Save Profile Button -->
+                <button id="btn-save-profile" class="save-profile-btn" data-i18n="btn_save">💾 Save Profile</button>
             </div>
         </section>
 
@@ -161,9 +165,49 @@
 
             </div>
         </section>
+
+        <!-- SECTION 4: SAVED PROFILES -->
+        <section id="section-profiles" class="hidden">
+            <div class="profiles-header">
+                <div class="input-group">
+                    <input type="text" id="search-profiles" placeholder="Search profiles..." data-i18n-placeholder="search_placeholder">
+                </div>
+                <div class="profiles-stats">
+                    <span data-i18n="total_profiles">Total Profiles</span>: <strong id="profile-count">0</strong>
+                </div>
+            </div>
+
+            <div id="profiles-list" class="profiles-list">
+                <!-- Profile cards will be inserted here -->
+            </div>
+
+            <div id="empty-state" class="empty-state hidden">
+                <div class="empty-icon">📋</div>
+                <p data-i18n="no_profiles">No saved profiles yet</p>
+                <p class="empty-hint" data-i18n="no_profiles_hint">Analyze a name and save it to see it here</p>
+            </div>
+
+            <button id="btn-clear-all" class="clear-all-btn hidden" data-i18n="btn_clear_all">🗑️ Clear All Profiles</button>
+        </section>
     </main>
 
+    <!-- Save Profile Modal -->
+    <div id="save-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3 data-i18n="modal_title">Save Profile</h3>
+            <div class="input-group">
+                <label data-i18n="modal_name">Profile Name</label>
+                <input type="text" id="modal-profile-name" placeholder="Enter a name for this profile">
+            </div>
+            <div class="modal-actions">
+                <button id="modal-cancel" class="modal-btn-secondary" data-i18n="modal_cancel">Cancel</button>
+                <button id="modal-save" class="modal-btn-primary" data-i18n="modal_save">Save</button>
+            </div>
+        </div>
+    </div>
+
     <script src="numerology_core.js"></script>
+    <script src="storage.js"></script>
     <script src="app.js"></script>
     <script>
         if ('serviceWorker' in navigator) {

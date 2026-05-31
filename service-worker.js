@@ -1,10 +1,11 @@
-const CACHE_NAME = 'numerology-v1';
+const CACHE_NAME = 'numerology-v2';
 const ASSETS = [
   './',
   './index.html',
   './style.css',
   './app.js',
   './numerology_core.js',
+  './storage.js',
   './manifest.json'
 ];
 
