@@ -47,6 +47,7 @@
                     <option value="Person" data-i18n="opt_person">Person</option>
                     <option value="Business" data-i18n="opt_business_entity">Business</option>
                     <option value="Vehicle" data-i18n="opt_vehicle_entity">Vehicle</option>
+                    <option value="Phone" data-i18n="opt_phone">Phone Number</option>
                     <option value="Other" data-i18n="opt_other">Other</option>
                 </select>
             </div>
@@ -76,20 +77,50 @@
                 <p id="result-message"></p>
                 <div class="big-number" id="result-number"></div>
                 
-                <!-- Vibration Interpretation -->
-                <div id="vibration-interpretation" class="vibration-interp hidden">
-                    <h4 class="interp-title" id="interp-title"></h4>
-                    <div class="interp-section">
-                        <strong data-i18n="interp_theme">Core Theme:</strong>
-                        <span id="interp-theme"></span>
+                <!-- Dual Interpretation Layout -->
+                <div id="dual-interpretation" class="dual-interp-container hidden">
+                    <!-- DOB Analysis -->
+                    <div class="interp-card dob-card">
+                        <div class="interp-header">
+                            <span class="interp-icon">🎂</span>
+                            <h4 class="interp-card-title" data-i18n="dob_analysis_title">Birth Number Analysis</h4>
+                        </div>
+                        <div class="interp-number-badge" id="dob-number-badge"></div>
+                        <h5 class="interp-subtitle" id="dob-interp-title"></h5>
+                        <div class="interp-section">
+                            <strong data-i18n="interp_theme">Core Theme:</strong>
+                            <span id="dob-interp-theme"></span>
+                        </div>
+                        <div class="interp-section">
+                            <strong data-i18n="interp_strengths">Strengths:</strong>
+                            <span id="dob-interp-strengths"></span>
+                        </div>
+                        <div class="interp-section">
+                            <strong data-i18n="interp_shadow">Shadow Traits:</strong>
+                            <span id="dob-interp-shadow"></span>
+                        </div>
                     </div>
-                    <div class="interp-section">
-                        <strong data-i18n="interp_strengths">Strengths:</strong>
-                        <span id="interp-strengths"></span>
-                    </div>
-                    <div class="interp-section">
-                        <strong data-i18n="interp_shadow">Shadow Traits:</strong>
-                        <span id="interp-shadow"></span>
+
+                    <!-- Name/Entity Analysis -->
+                    <div class="interp-card name-card">
+                        <div class="interp-header">
+                            <span class="interp-icon">✨</span>
+                            <h4 class="interp-card-title" data-i18n="name_analysis_title">Name/Entity Analysis</h4>
+                        </div>
+                        <div class="interp-number-badge" id="name-number-badge"></div>
+                        <h5 class="interp-subtitle" id="name-interp-title"></h5>
+                        <div class="interp-section">
+                            <strong data-i18n="interp_theme">Core Theme:</strong>
+                            <span id="name-interp-theme"></span>
+                        </div>
+                        <div class="interp-section">
+                            <strong data-i18n="interp_strengths">Strengths:</strong>
+                            <span id="name-interp-strengths"></span>
+                        </div>
+                        <div class="interp-section">
+                            <strong data-i18n="interp_shadow">Shadow Traits:</strong>
+                            <span id="name-interp-shadow"></span>
+                        </div>
                     </div>
                 </div>
                 

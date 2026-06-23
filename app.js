@@ -25,6 +25,7 @@ const translations = {
         opt_name: "Name",
         opt_business: "Business Name",
         opt_vehicle: "Vehicle Number",
+        opt_phone: "Phone Number",
         opt_custom: "Other...",
         btn_calc: "Analyze",
         btn_compare: "Check Compatibility",
@@ -68,6 +69,8 @@ const translations = {
         interp_theme: "Core Theme:",
         interp_strengths: "Strengths:",
         interp_shadow: "Shadow Traits:",
+        dob_analysis_title: "Birth Number Analysis",
+        name_analysis_title: "Name/Entity Analysis",
         // Profile Management
         total_profiles: "Total Profiles",
         no_profiles: "No saved profiles yet",
@@ -124,6 +127,7 @@ const translations = {
         opt_name: "नाम",
         opt_business: "व्यापार का नाम",
         opt_vehicle: "गाड़ी नंबर",
+        opt_phone: "फोन नंबर",
         opt_custom: "अन्य...",
         btn_calc: "विश्लेषण करें",
         btn_compare: "मैत्री जांचें",
@@ -167,6 +171,8 @@ const translations = {
         interp_theme: "मूल विषय:",
         interp_strengths: "शक्तियां:",
         interp_shadow: "छाया गुण:",
+        dob_analysis_title: "जन्म अंक विश्लेषण",
+        name_analysis_title: "नाम/वस्तु विश्लेषण",
         // Profile Management
         total_profiles: "कुल प्रोफाइल",
         no_profiles: "अभी तक कोई प्रोफाइल नहीं",
@@ -207,6 +213,7 @@ let storage;
 let lastAnalysisData = null;
 let lastLoshuResult = null; // Store last Lo Shu result for re-rendering on language change
 let lastVibrationNumber = null; // Store last vibration number for re-rendering on language change
+let lastBasicNumber = null; // Store last basic number for re-rendering on language change
 
 // UI Elements
 let langSwitch, entityTypeSelect, inputText, inputDob, btnCalculate;
@@ -335,7 +342,8 @@ document.addEventListener('DOMContentLoaded', () => {
         entityTypeSelect.options[0].textContent = t.opt_person;
         entityTypeSelect.options[1].textContent = t.opt_business_entity;
         entityTypeSelect.options[2].textContent = t.opt_vehicle_entity;
-        entityTypeSelect.options[3].textContent = t.opt_other;
+        entityTypeSelect.options[3].textContent = t.opt_phone;
+        entityTypeSelect.options[4].textContent = t.opt_other;
 
         if(lang === 'hi') {
             inputText.placeholder = "जैसे: सूर्य";
@@ -354,13 +362,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Re-render vibration interpretation if it exists
-        if (lastVibrationNumber) {
-            const interpretation = engine.get_vibration_interpretation(lastVibrationNumber, currentLang);
-            if (interpretation) {
-                document.getElementById('interp-title').textContent = interpretation.title;
-                document.getElementById('interp-theme').textContent = interpretation.theme;
-                document.getElementById('interp-strengths').textContent = interpretation.strengths;
-                document.getElementById('interp-shadow').textContent = interpretation.shadow;
+        if (lastVibrationNumber && lastBasicNumber) {
+            const dobInterpretation = engine.get_vibration_interpretation(lastBasicNumber, currentLang);
+            const nameInterpretation = engine.get_vibration_interpretation(lastVibrationNumber, currentLang);
+            
+            if (dobInterpretation) {
+                document.getElementById('dob-interp-title').textContent = dobInterpretation.title;
+                document.getElementById('dob-interp-theme').textContent = dobInterpretation.theme;
+                document.getElementById('dob-interp-strengths').textContent = dobInterpretation.strengths;
+                document.getElementById('dob-interp-shadow').textContent = dobInterpretation.shadow;
+            }
+            
+            if (nameInterpretation) {
+                document.getElementById('name-interp-title').textContent = nameInterpretation.title;
+                document.getElementById('name-interp-theme').textContent = nameInterpretation.theme;
+                document.getElementById('name-interp-strengths').textContent = nameInterpretation.strengths;
+                document.getElementById('name-interp-shadow').textContent = nameInterpretation.shadow;
             }
         }
     }
@@ -732,15 +749,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Store vibration number for language switching
         lastVibrationNumber = nameVibration;
+        lastBasicNumber = dateMetrics.day_number;
 
-        // Display vibration interpretation
-        const interpretation = engine.get_vibration_interpretation(nameVibration, currentLang);
-        if (interpretation) {
-            document.getElementById('interp-title').textContent = interpretation.title;
-            document.getElementById('interp-theme').textContent = interpretation.theme;
-            document.getElementById('interp-strengths').textContent = interpretation.strengths;
-            document.getElementById('interp-shadow').textContent = interpretation.shadow;
-            document.getElementById('vibration-interpretation').classList.remove('hidden');
+        // Display dual interpretation (DOB + Name)
+        const dobInterpretation = engine.get_vibration_interpretation(dateMetrics.day_number, currentLang);
+        const nameInterpretation = engine.get_vibration_interpretation(nameVibration, currentLang);
+        
+        if (dobInterpretation && nameInterpretation) {
+            // DOB Analysis
+            document.getElementById('dob-number-badge').textContent = dateMetrics.day_number;
+            document.getElementById('dob-interp-title').textContent = dobInterpretation.title;
+            document.getElementById('dob-interp-theme').textContent = dobInterpretation.theme;
+            document.getElementById('dob-interp-strengths').textContent = dobInterpretation.strengths;
+            document.getElementById('dob-interp-shadow').textContent = dobInterpretation.shadow;
+            
+            // Name Analysis
+            document.getElementById('name-number-badge').textContent = nameVibration;
+            document.getElementById('name-interp-title').textContent = nameInterpretation.title;
+            document.getElementById('name-interp-theme').textContent = nameInterpretation.theme;
+            document.getElementById('name-interp-strengths').textContent = nameInterpretation.strengths;
+            document.getElementById('name-interp-shadow').textContent = nameInterpretation.shadow;
+            
+            document.getElementById('dual-interpretation').classList.remove('hidden');
         }
 
         let suitText = "", suitClass = "";
