@@ -41,15 +41,24 @@ class NumerologyEngine {
 
     calculate_vibration(text) {
         if (!text) return 0;
-        const clean_text = text.replace(/[^a-zA-Z]/g, '').toUpperCase();
+        const clean_text = text.toUpperCase();
         let total_sum = 0;
+        
         for (let char of clean_text) {
-            for (let [num, letters] of Object.entries(this.LETTER_MAP)) {
-                if (letters.includes(char)) {
-                    total_sum += parseInt(num);
-                    break;
+            // Check if character is a digit
+            if (char >= '0' && char <= '9') {
+                total_sum += parseInt(char);
+            }
+            // Check if character is a letter
+            else if (char >= 'A' && char <= 'Z') {
+                for (let [num, letters] of Object.entries(this.LETTER_MAP)) {
+                    if (letters.includes(char)) {
+                        total_sum += parseInt(num);
+                        break;
+                    }
                 }
             }
+            // Ignore all other characters (spaces, special chars, etc.)
         }
         return this._get_digital_root(total_sum);
     }

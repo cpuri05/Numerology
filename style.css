@@ -48,6 +48,8 @@ body {
     flex-direction: column;
     align-items: center;
     min-height: 100vh;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 /* Header */
@@ -55,7 +57,7 @@ header {
     background: linear-gradient(135deg, var(--primary-dark), var(--primary));
     color: white;
     width: 100%;
-    padding: 1.5rem 0;
+    padding: 1.2rem 1rem;
     text-align: center;
     box-shadow: var(--shadow-md);
     position: sticky;
@@ -68,6 +70,16 @@ header h1 {
     font-size: 1.5rem;
     letter-spacing: 1px;
     font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    header {
+        padding: 1rem 0.75rem;
+    }
+    
+    header h1 {
+        font-size: 1.3rem;
+    }
 }
 
 /* Language Switcher */
@@ -90,9 +102,16 @@ header h1 {
 
 /* Main Container */
 main {
-    width: 90%;
+    width: 100%;
     max-width: 480px;
-    margin: 20px auto 40px auto;
+    margin: 0;
+    padding: 15px;
+}
+
+@media (max-width: 768px) {
+    main {
+        padding: 12px;
+    }
 }
 
 /* Tabs */
@@ -101,14 +120,17 @@ main {
     background-color: var(--card-bg);
     border-radius: 12px;
     padding: 5px;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .tabs button {
     flex: 1;
-    padding: 12px;
+    min-width: fit-content;
+    padding: 12px 8px;
     background: transparent;
     border: none;
     border-radius: 8px;
@@ -117,12 +139,20 @@ main {
     font-weight: 600;
     font-size: 0.85rem;
     transition: all 0.2s ease;
+    white-space: nowrap;
 }
 
 .tabs button.active {
     background-color: var(--primary);
     color: white;
     box-shadow: var(--shadow-sm);
+}
+
+@media (max-width: 768px) {
+    .tabs button {
+        font-size: 0.75rem;
+        padding: 10px 6px;
+    }
 }
 
 /* Forms & Inputs */
@@ -152,6 +182,13 @@ input, select {
     width: 100%;
 }
 
+@media (max-width: 768px) {
+    input, select {
+        padding: 12px;
+        font-size: 16px; /* Prevents iOS zoom on focus */
+    }
+}
+
 input:focus, select:focus {
     border-color: var(--primary);
     box-shadow: 0 0 0 3px rgba(107, 142, 111, 0.2);
@@ -179,16 +216,30 @@ input:focus, select:focus {
     box-shadow: var(--shadow-sm);
 }
 
+@media (max-width: 768px) {
+    .action-btn {
+        padding: 14px;
+        font-size: 1rem;
+    }
+}
+
 /* Results Cards */
 .result-box {
-    margin-top: 25px;
+    margin-top: 20px;
     background: var(--card-bg);
-    padding: 25px;
+    padding: 20px;
     border-radius: 16px;
     text-align: center;
     box-shadow: var(--shadow-md);
     border: 1px solid var(--border);
     animation: fadeIn 0.4s ease-out;
+}
+
+@media (max-width: 768px) {
+    .result-box {
+        padding: 15px;
+        margin-top: 15px;
+    }
 }
 
 @keyframes fadeIn {
@@ -205,10 +256,16 @@ input:focus, select:focus {
     text-shadow: 2px 2px 0px rgba(0,0,0,0.05);
 }
 
+@media (max-width: 768px) {
+    .big-number {
+        font-size: 3.5rem;
+    }
+}
+
 .profile-box {
     text-align: left;
     background: rgba(107, 142, 111, 0.05); 
-    padding: 15px 20px;
+    padding: 15px;
     border-radius: 12px;
     margin-bottom: 20px;
     font-size: 0.95rem;
@@ -219,6 +276,20 @@ input:focus, select:focus {
     margin: 8px 0;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+@media (max-width: 768px) {
+    .profile-box {
+        font-size: 0.85rem;
+        padding: 12px;
+    }
+    
+    .profile-box p {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }
 
 .highlight-text {
@@ -260,12 +331,24 @@ input:focus, select:focus {
     justify-content: space-around;
     align-items: center;
     margin-bottom: 20px;
+    gap: 10px;
 }
 
 .mid-number {
     font-size: 2.5rem;
     font-weight: 800;
     color: var(--text);
+}
+
+@media (max-width: 768px) {
+    .comparison-grid {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .mid-number {
+        font-size: 2rem;
+    }
 }
 
 .relation-badge {
@@ -307,6 +390,29 @@ input:focus, select:focus {
     width: calc(100% - 30px);
 }
 
+@media (max-width: 768px) {
+    .forecast-card {
+        padding: 12px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .indented-1 {
+        margin-left: 10px;
+        width: calc(100% - 10px);
+    }
+    
+    .indented-2 {
+        margin-left: 20px;
+        width: calc(100% - 20px);
+    }
+    
+    .fc-right {
+        align-items: flex-start;
+    }
+}
+
 .fc-left {
     display: flex;
     flex-direction: column;
@@ -345,6 +451,20 @@ input:focus, select:focus {
     font-size: 0.85rem;
     font-weight: 600;
     margin-top: 4px;
+}
+
+@media (max-width: 768px) {
+    .fc-context.big-text {
+        font-size: 1rem;
+    }
+    
+    .fc-number {
+        font-size: 1.5rem;
+    }
+    
+    .fc-status {
+        font-size: 0.75rem;
+    }
 }
 
 /* Status Borders for Forecast */
@@ -587,16 +707,30 @@ input:focus, select:focus {
     align-items: center;
     z-index: 1000;
     backdrop-filter: blur(4px);
+    padding: 20px;
 }
 
 .modal-content {
     background: var(--card-bg);
     padding: 25px;
     border-radius: 16px;
-    width: 90%;
+    width: 100%;
     max-width: 400px;
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.3);
     animation: modalSlideIn 0.3s ease-out;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        padding: 20px;
+        border-radius: 12px;
+    }
+    
+    .modal-content h3 {
+        font-size: 1.1rem;
+    }
 }
 
 @keyframes modalSlideIn {
@@ -712,7 +846,7 @@ input:focus, select:focus {
 .info-item {
     text-align: center;
     flex: 1;
-    min-width: 100px;
+    min-width: 90px;
 }
 
 .info-item span {
@@ -727,6 +861,25 @@ input:focus, select:focus {
     font-size: 1.8rem;
     color: var(--primary);
     font-weight: 800;
+}
+
+@media (max-width: 768px) {
+    .loshu-info {
+        padding: 12px;
+        gap: 8px;
+    }
+    
+    .info-item {
+        min-width: 80px;
+    }
+    
+    .info-item span {
+        font-size: 0.65rem;
+    }
+    
+    .info-item strong {
+        font-size: 1.5rem;
+    }
 }
 
 .loshu-grid-container {
@@ -755,6 +908,18 @@ input:focus, select:focus {
     padding: 10px;
     position: relative;
     transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .loshu-grid {
+        gap: 6px;
+        max-width: 100%;
+    }
+    
+    .loshu-cell {
+        padding: 6px;
+        border-radius: 8px;
+    }
 }
 
 .loshu-cell.filled {
@@ -798,6 +963,16 @@ input:focus, select:focus {
 .loshu-cell.empty .cell-count {
     color: var(--text-muted);
     font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .cell-count {
+        font-size: 0.85rem;
+    }
+    
+    .loshu-cell.empty .cell-count {
+        font-size: 1.2rem;
+    }
 }
 
 /* --- Plane Analysis Styles --- */
@@ -861,6 +1036,16 @@ input:focus, select:focus {
     box-shadow: var(--shadow-sm);
 }
 
+@media (max-width: 768px) {
+    .plane-card {
+        padding: 10px 12px;
+    }
+    
+    .plane-card:hover {
+        transform: none;
+    }
+}
+
 .full-plane {
     border-left-color: var(--friend);
     background: linear-gradient(to right, rgba(16, 185, 129, 0.05), var(--bg));
@@ -908,6 +1093,13 @@ input:focus, select:focus {
     color: var(--text-muted);
     line-height: 1.5;
     margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+    .plane-interpretation {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
 }
 
 .plane-numbers-detail {
@@ -968,4 +1160,354 @@ input:focus, select:focus {
 
 .interp-section span {
     color: var(--text-muted);
+}
+
+/* --- Dual Interpretation Layout --- */
+.dual-interp-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .dual-interp-container {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}
+
+.interp-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 16px;
+    border: 2px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    text-align: left;
+    transition: all 0.3s ease;
+}
+
+.interp-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 768px) {
+    .interp-card {
+        padding: 14px;
+    }
+    
+    .interp-card:hover {
+        transform: none;
+    }
+}
+
+.dob-card {
+    border-color: #f59e0b;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.05), var(--card-bg));
+}
+
+.name-card {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, rgba(107, 142, 111, 0.08), var(--card-bg));
+}
+
+.interp-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.interp-icon {
+    font-size: 1.5rem;
+}
+
+.interp-card-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.interp-number-badge {
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+    margin: 10px 0;
+    line-height: 1;
+}
+
+@media (max-width: 768px) {
+    .interp-number-badge {
+        font-size: 2rem;
+        margin: 8px 0;
+    }
+}
+
+.dob-card .interp-number-badge {
+    color: #f59e0b;
+}
+
+.name-card .interp-number-badge {
+    color: var(--primary);
+}
+
+.interp-subtitle {
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 0 12px 0;
+    line-height: 1.3;
+}
+
+@media (max-width: 768px) {
+    .interp-subtitle {
+        font-size: 0.85rem;
+        margin: 0 0 10px 0;
+    }
+}
+
+.dob-card .interp-subtitle {
+    color: #f59e0b;
+}
+
+.name-card .interp-subtitle {
+    color: var(--primary);
+}
+
+.interp-card .interp-section {
+    margin-bottom: 10px;
+    line-height: 1.5;
+    font-size: 0.8rem;
+}
+
+.interp-card .interp-section strong {
+    color: var(--text);
+    display: block;
+    margin-bottom: 3px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    font-weight: 700;
+}
+
+.interp-card .interp-section span {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+@media (max-width: 768px) {
+    .interp-card .interp-section {
+        font-size: 0.75rem;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+    
+    .interp-card .interp-section strong {
+        font-size: 0.65rem;
+        margin-bottom: 2px;
+    }
+    
+    .interp-card .interp-section span {
+        font-size: 0.75rem;
+    }
+}
+
+
+/* ========================================
+   MOBILE OPTIMIZATIONS
+   ======================================== */
+
+@media (max-width: 768px) {
+    /* Prevent horizontal scroll */
+    html, body {
+        overflow-x: hidden;
+        max-width: 100%;
+    }
+    
+    /* Ensure main container doesn't overflow */
+    main {
+        max-width: 100vw;
+        box-sizing: border-box;
+    }
+    
+    /* Better text wrapping */
+    * {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    /* Improve touch targets */
+    button {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Stack profile box items on mobile */
+    .profile-box p {
+        font-size: 0.8rem;
+    }
+    
+    .profile-box p span:first-child {
+        margin-bottom: 2px;
+    }
+    
+    /* Adjust result message for mobile */
+    #result-message {
+        font-size: 0.9rem;
+        line-height: 1.4;
+    }
+    
+    /* Better suitability badge on mobile */
+    .suitability-badge {
+        font-size: 0.85rem;
+        padding: 10px 16px;
+    }
+    
+    /* Adjust comparison grid spacing */
+    .comparison-grid > div {
+        text-align: center;
+    }
+    
+    /* Better modal button layout on small screens */
+    .modal-actions {
+        flex-direction: column;
+    }
+    
+    .modal-btn-primary, .modal-btn-secondary {
+        width: 100%;
+    }
+    
+    /* Improve profile card layout */
+    .profile-card-body {
+        font-size: 0.85rem;
+    }
+    
+    /* Better autocomplete on mobile */
+    .autocomplete-items {
+        max-height: 200px;
+    }
+    
+    .autocomplete-item {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+    }
+    
+    /* Adjust plane analysis for mobile */
+    .plane-header {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    
+    .plane-name {
+        font-size: 0.85rem;
+    }
+    
+    .plane-numbers {
+        font-size: 0.8rem;
+        padding: 2px 6px;
+    }
+    
+    .plane-category {
+        font-size: 0.9rem;
+        padding: 6px 10px;
+    }
+    
+    /* Better spacing for interpretation cards */
+    .interp-header {
+        gap: 6px;
+    }
+    
+    .interp-icon {
+        font-size: 1.3rem;
+    }
+    
+    .interp-card-title {
+        font-size: 0.75rem;
+        line-height: 1.2;
+    }
+}
+
+/* Extra small devices (phones in portrait, less than 360px) */
+@media (max-width: 360px) {
+    header h1 {
+        font-size: 1.1rem;
+    }
+    
+    .tabs button {
+        font-size: 0.7rem;
+        padding: 8px 4px;
+    }
+    
+    .big-number {
+        font-size: 3rem;
+    }
+    
+    .interp-number-badge {
+        font-size: 1.8rem;
+    }
+    
+    .interp-subtitle {
+        font-size: 0.8rem;
+    }
+    
+    .fc-number {
+        font-size: 1.3rem;
+    }
+    
+    .mid-number {
+        font-size: 1.8rem;
+    }
+    
+    .info-item strong {
+        font-size: 1.3rem;
+    }
+    
+    .loshu-cell {
+        padding: 4px;
+    }
+    
+    .cell-count {
+        font-size: 0.75rem;
+    }
+}
+
+/* Landscape mode adjustments */
+@media (max-width: 768px) and (orientation: landscape) {
+    .dual-interp-container {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .forecast-card {
+        flex-direction: row;
+    }
+    
+    .fc-right {
+        align-items: flex-end;
+    }
+}
+
+/* Safe area insets for modern mobile devices (notch support) */
+@supports (padding: max(0px)) {
+    body {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+    
+    header {
+        padding-left: max(1rem, env(safe-area-inset-left));
+        padding-right: max(1rem, env(safe-area-inset-right));
+        padding-top: max(1.2rem, env(safe-area-inset-top));
+    }
+    
+    main {
+        padding-left: max(15px, env(safe-area-inset-left));
+        padding-right: max(15px, env(safe-area-inset-right));
+        padding-bottom: max(15px, env(safe-area-inset-bottom));
+    }
 }
