@@ -1,9 +1,9 @@
 :root {
     /* Light Mode Palette */
-    --primary: #4f46e5;       
-    --primary-dark: #3730a3;  
+    --primary: #1eac2f;       /* Sage green */
+    --primary-dark: #1f7b27;  /* Darker sage green */
     --accent: #f59e0b;        
-    --bg: #f8fafc;            
+    --bg: #f8faf9;            
     --card-bg: #ffffff;
     --text: #1e293b;          
     --text-muted: #64748b;    
@@ -22,8 +22,8 @@
 @media (prefers-color-scheme: dark) {
     :root {
         /* Dark Mode Palette */
-        --primary: #818cf8;       
-        --primary-dark: #6366f1;  
+        --primary: #8fae92;       /* Lighter sage for dark mode */
+        --primary-dark: #6b8e6f;  /* Sage green */
         --accent: #fbbf24;        
         --bg: #0f172a;            
         --card-bg: #1e293b;       
@@ -154,7 +154,7 @@ input, select {
 
 input:focus, select:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 0 0 3px rgba(107, 142, 111, 0.2);
 }
 
 /* Buttons */
@@ -207,7 +207,7 @@ input:focus, select:focus {
 
 .profile-box {
     text-align: left;
-    background: rgba(99, 102, 241, 0.05); 
+    background: rgba(107, 142, 111, 0.05); 
     padding: 15px 20px;
     border-radius: 12px;
     margin-bottom: 20px;
@@ -423,7 +423,7 @@ input:focus, select:focus {
     gap: 10px;
     margin: 15px 0;
     padding: 10px;
-    background: rgba(99, 102, 241, 0.05);
+    background: rgba(107, 142, 111, 0.05);
     border-radius: 8px;
 }
 
@@ -678,7 +678,7 @@ input:focus, select:focus {
 
 .autocomplete-item:hover,
 .autocomplete-item.autocomplete-active {
-    background: rgba(99, 102, 241, 0.1);
+    background: rgba(107, 142, 111, 0.1);
 }
 
 .autocomplete-item strong {
@@ -703,7 +703,7 @@ input:focus, select:focus {
     justify-content: space-around;
     margin-bottom: 20px;
     padding: 15px;
-    background: rgba(99, 102, 241, 0.05);
+    background: rgba(107, 142, 111, 0.05);
     border-radius: 12px;
     flex-wrap: wrap;
     gap: 10px;
@@ -759,7 +759,7 @@ input:focus, select:focus {
 
 .loshu-cell.filled {
     border-color: var(--primary);
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), var(--card-bg));
+    background: linear-gradient(135deg, rgba(107, 142, 111, 0.1), var(--card-bg));
 }
 
 .loshu-cell.empty {
@@ -893,7 +893,7 @@ input:focus, select:focus {
     font-weight: 700;
     font-size: 0.9rem;
     color: var(--primary);
-    background: rgba(99, 102, 241, 0.1);
+    background: rgba(107, 142, 111, 0.1);
     padding: 3px 8px;
     border-radius: 6px;
 }
@@ -936,7 +936,7 @@ input:focus, select:focus {
 /* --- Vibration Interpretation Styles --- */
 .vibration-interp {
     margin-top: 20px;
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.08), rgba(99, 102, 241, 0.02));
+    background: linear-gradient(135deg, rgba(107, 142, 111, 0.08), rgba(107, 142, 111, 0.02));
     border-radius: 12px;
     padding: 15px;
     border-left: 4px solid var(--primary);
