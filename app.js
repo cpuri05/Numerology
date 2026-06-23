@@ -6,8 +6,12 @@ const translations = {
         tab_single: "Number Analysis",
         tab_compat: "Compatibility",
         tab_forecast: "Forecast",
+        tab_numeroscope: "Numeroscope",
         tab_profiles: "Saved Profiles",
         lbl_dob: "Date of Birth",
+        lbl_gender: "Gender",
+        opt_male: "Male",
+        opt_female: "Female",
         lbl_target_date: "Forecast Date",
         lbl_entity_type: "Entity Type",
         opt_person: "Person",
@@ -25,6 +29,7 @@ const translations = {
         btn_calc: "Analyze",
         btn_compare: "Check Compatibility",
         btn_forecast: "Get Horoscope",
+        btn_loshu: "Generate Numeroscope",
         btn_save: "💾 Save Profile",
         btn_clear_all: "🗑️ Clear All Profiles",
         lbl_person_a: "First Name/Entity",
@@ -51,6 +56,18 @@ const translations = {
         fc_normal: "Normal",
         fc_unfavorable: "Unfavorable/Caution",
         fc_ruler: "Ruler",
+        loshu_driver: "Driver (Psychic)",
+        loshu_conductor: "Conductor (Destiny)",
+        loshu_kua: "Kua Number",
+        analysis_title: "Plane Analysis (Yogs)",
+        full_planes: "✓ Active Planes (Full)",
+        partial_planes: "◐ Partially Active Planes",
+        empty_planes: "○ Inactive Planes (Empty)",
+        present_numbers: "Present",
+        missing_numbers: "Missing",
+        interp_theme: "Core Theme:",
+        interp_strengths: "Strengths:",
+        interp_shadow: "Shadow Traits:",
         // Profile Management
         total_profiles: "Total Profiles",
         no_profiles: "No saved profiles yet",
@@ -88,8 +105,12 @@ const translations = {
         tab_single: "अंक विश्लेषण",
         tab_compat: "मैत्री चक्र",
         tab_forecast: "वर्षफल",
+        tab_numeroscope: "अंक पत्री",
         tab_profiles: "सहेजे प्रोफाइल",
         lbl_dob: "जन्म तिथि",
+        lbl_gender: "लिंग",
+        opt_male: "पुरुष",
+        opt_female: "महिला",
         lbl_target_date: "भविष्यफल तिथि",
         lbl_entity_type: "इकाई प्रकार",
         opt_person: "व्यक्ति",
@@ -107,6 +128,7 @@ const translations = {
         btn_calc: "विश्लेषण करें",
         btn_compare: "मैत्री जांचें",
         btn_forecast: "भविष्यफल देखें",
+        btn_loshu: "अंक पत्री बनाएं",
         btn_save: "💾 प्रोफाइल सहेजें",
         btn_clear_all: "🗑️ सभी प्रोफाइल हटाएं",
         lbl_person_a: "पहला नाम",
@@ -133,6 +155,18 @@ const translations = {
         fc_normal: "सम (Normal)",
         fc_unfavorable: "अशुभ (Unfavorable)",
         fc_ruler: "स्वामी",
+        loshu_driver: "चालक (Psychic)",
+        loshu_conductor: "संचालक (Destiny)",
+        loshu_kua: "कुआ नंबर",
+        analysis_title: "तल विश्लेषण (योग)",
+        full_planes: "✓ सक्रिय तल (पूर्ण)",
+        partial_planes: "◐ आंशिक सक्रिय तल",
+        empty_planes: "○ निष्क्रिय तल (खाली)",
+        present_numbers: "उपस्थित",
+        missing_numbers: "गुम",
+        interp_theme: "मूल विषय:",
+        interp_strengths: "शक्तियां:",
+        interp_shadow: "छाया गुण:",
         // Profile Management
         total_profiles: "कुल प्रोफाइल",
         no_profiles: "अभी तक कोई प्रोफाइल नहीं",
@@ -171,13 +205,15 @@ let currentLang = 'en';
 let engine;
 let storage;
 let lastAnalysisData = null;
+let lastLoshuResult = null; // Store last Lo Shu result for re-rendering on language change
+let lastVibrationNumber = null; // Store last vibration number for re-rendering on language change
 
 // UI Elements
 let langSwitch, entityTypeSelect, inputText, inputDob, btnCalculate;
 let resultArea, resultMsg, resultNum, resBasicNum, resFriendlyList, resNeutralList, resEnemyList, suitabilityBox;
 let inputA, inputB, btnCompare, compatResultArea, numADisp, numBDisp, nameADisp, nameBDisp, relationStatus, compatDesc;
-let sectionSingle, sectionCompat, sectionForecast, sectionProfiles;
-let tabSingle, tabCompat, tabForecast, tabProfiles;
+let sectionSingle, sectionCompat, sectionForecast, sectionNumeroscope, sectionProfiles;
+let tabSingle, tabCompat, tabForecast, tabNumeroscope, tabProfiles;
 let btnSaveProfile, saveModal, modalProfileName, modalSave, modalCancel;
 let profilesList, emptyState, profileCount, searchProfiles, btnClearAll, btnExport, btnImport, fileImport, importModal, importMerge, importReplace, importCancel;
 
@@ -186,6 +222,9 @@ let inputNameFc, inputDobFc, inputTargetDate, btnForecast, forecastResultArea;
 let cardYear, cardMonth, cardDay;
 let valYear, valMonth, valDay;
 let statusYear, statusMonth, statusDay;
+
+// Lo Shu Grid Elements
+let inputDobLoshu, inputGender, btnLoshu, loshuResultArea, loshuDriver, loshuConductor, loshuKua, loshuGrid;
 
 document.addEventListener('DOMContentLoaded', () => {
     engine = new NumerologyEngine();
@@ -196,11 +235,13 @@ document.addEventListener('DOMContentLoaded', () => {
     sectionSingle = document.getElementById('section-single');
     sectionCompat = document.getElementById('section-compat');
     sectionForecast = document.getElementById('section-forecast');
+    sectionNumeroscope = document.getElementById('section-numeroscope');
     sectionProfiles = document.getElementById('section-profiles');
 
     tabSingle = document.getElementById('tab-single');
     tabCompat = document.getElementById('tab-compat');
     tabForecast = document.getElementById('tab-forecast');
+    tabNumeroscope = document.getElementById('tab-numeroscope');
     tabProfiles = document.getElementById('tab-profiles');
 
     // Single Logic References
@@ -240,6 +281,16 @@ document.addEventListener('DOMContentLoaded', () => {
     cardYear = document.getElementById('card-year');
     cardMonth = document.getElementById('card-month');
     cardDay = document.getElementById('card-day');
+
+    // Lo Shu Grid References
+    inputDobLoshu = document.getElementById('input-dob-loshu');
+    inputGender = document.getElementById('input-gender');
+    btnLoshu = document.getElementById('btn-loshu');
+    loshuResultArea = document.getElementById('loshu-result-area');
+    loshuDriver = document.getElementById('loshu-driver');
+    loshuConductor = document.getElementById('loshu-conductor');
+    loshuKua = document.getElementById('loshu-kua');
+    loshuGrid = document.getElementById('loshu-grid');
 
     // Profile Management References
     btnSaveProfile = document.getElementById('btn-save-profile');
@@ -294,6 +345,23 @@ document.addEventListener('DOMContentLoaded', () => {
             inputText.placeholder = "e.g., Alice";
             inputA.placeholder = "A";
             inputNameFc.placeholder = "Enter name";
+        }
+
+        // Re-render Lo Shu analysis if it exists
+        if (lastLoshuResult) {
+            const analysis = engine.analyze_planes(lastLoshuResult.frequencies, currentLang);
+            renderPlaneAnalysis(analysis, t);
+        }
+
+        // Re-render vibration interpretation if it exists
+        if (lastVibrationNumber) {
+            const interpretation = engine.get_vibration_interpretation(lastVibrationNumber, currentLang);
+            if (interpretation) {
+                document.getElementById('interp-title').textContent = interpretation.title;
+                document.getElementById('interp-theme').textContent = interpretation.theme;
+                document.getElementById('interp-strengths').textContent = interpretation.strengths;
+                document.getElementById('interp-shadow').textContent = interpretation.shadow;
+            }
         }
     }
 
@@ -392,17 +460,20 @@ document.addEventListener('DOMContentLoaded', () => {
     tabSingle.addEventListener('click', () => switchTab('single'));
     tabCompat.addEventListener('click', () => switchTab('compat'));
     tabForecast.addEventListener('click', () => switchTab('forecast'));
+    tabNumeroscope.addEventListener('click', () => switchTab('numeroscope'));
     tabProfiles.addEventListener('click', () => switchTab('profiles'));
 
     function switchTab(tabName) {
         sectionSingle.classList.add('hidden');
         sectionCompat.classList.add('hidden');
         sectionForecast.classList.add('hidden');
+        sectionNumeroscope.classList.add('hidden');
         sectionProfiles.classList.add('hidden');
         
         tabSingle.classList.remove('active');
         tabCompat.classList.remove('active');
         tabForecast.classList.remove('active');
+        tabNumeroscope.classList.remove('active');
         tabProfiles.classList.remove('active');
 
         if(tabName === 'single') {
@@ -417,6 +488,13 @@ document.addEventListener('DOMContentLoaded', () => {
             // Auto-fill DOB if entered in single tab
             if(inputDob.value && !inputDobFc.value) {
                 inputDobFc.value = inputDob.value;
+            }
+        } else if(tabName === 'numeroscope') {
+            sectionNumeroscope.classList.remove('hidden');
+            tabNumeroscope.classList.add('active');
+            // Auto-fill DOB if entered in single tab
+            if(inputDob.value && !inputDobLoshu.value) {
+                inputDobLoshu.value = inputDob.value;
             }
         } else if(tabName === 'profiles') {
             sectionProfiles.classList.remove('hidden');
@@ -494,6 +572,117 @@ document.addEventListener('DOMContentLoaded', () => {
         card.classList.add(statusClass + '-border'); // Add colored border
     }
 
+    // --- LO SHU GRID LOGIC ---
+    btnLoshu.addEventListener('click', () => {
+        const dob = inputDobLoshu.value;
+        const gender = inputGender.value;
+        const t = translations[currentLang];
+
+        if (!dob) return alert(currentLang === 'hi' ? 'कृपया जन्म तिथि दर्ज करें' : 'Please enter date of birth');
+
+        const result = engine.calculate_lo_shu_grid(dob, gender);
+        lastLoshuResult = result; // Store for language switching
+        
+        const analysis = engine.analyze_planes(result.frequencies, currentLang);
+        
+        loshuDriver.textContent = result.driver;
+        loshuConductor.textContent = result.conductor;
+        loshuKua.textContent = result.kua;
+        
+        // Render grid
+        loshuGrid.innerHTML = '';
+        result.grid.forEach((row, rowIdx) => {
+            row.forEach((count, colIdx) => {
+                const cell = document.createElement('div');
+                cell.className = 'loshu-cell';
+                
+                // Get the number for this position
+                const numMap = [
+                    [4, 9, 2],
+                    [3, 5, 7],
+                    [8, 1, 6]
+                ];
+                const num = numMap[rowIdx][colIdx];
+                
+                // Create cell content
+                const numLabel = document.createElement('div');
+                numLabel.className = 'cell-number';
+                numLabel.textContent = num;
+                
+                const countLabel = document.createElement('div');
+                countLabel.className = 'cell-count';
+                if (count > 0) {
+                    countLabel.textContent = Array(count).fill(num).join(', ');
+                    cell.classList.add('filled');
+                } else {
+                    countLabel.textContent = '-';
+                    cell.classList.add('empty');
+                }
+                
+                cell.appendChild(numLabel);
+                cell.appendChild(countLabel);
+                loshuGrid.appendChild(cell);
+            });
+        });
+        
+        // Render plane analysis
+        renderPlaneAnalysis(analysis, t);
+        
+        loshuResultArea.classList.remove('hidden');
+    });
+
+    function renderPlaneAnalysis(analysis, t) {
+        // Full Planes
+        const fullPlanesList = document.getElementById('full-planes-list');
+        if (analysis.full_planes.length === 0) {
+            fullPlanesList.innerHTML = `<div class="no-planes">${currentLang === 'hi' ? 'कोई पूर्ण तल नहीं' : 'No full planes'}</div>`;
+        } else {
+            fullPlanesList.innerHTML = analysis.full_planes.map(plane => `
+                <div class="plane-card full-plane">
+                    <div class="plane-header">
+                        <span class="plane-name">${plane.name}</span>
+                        <span class="plane-numbers">${plane.numbers_present.join(', ')}</span>
+                    </div>
+                    <div class="plane-interpretation">${plane.interpretation}</div>
+                </div>
+            `).join('');
+        }
+
+        // Partial Planes
+        const partialPlanesList = document.getElementById('partial-planes-list');
+        if (analysis.partial_planes.length === 0) {
+            partialPlanesList.innerHTML = `<div class="no-planes">${currentLang === 'hi' ? 'कोई आंशिक तल नहीं' : 'No partial planes'}</div>`;
+        } else {
+            partialPlanesList.innerHTML = analysis.partial_planes.map(plane => `
+                <div class="plane-card partial-plane">
+                    <div class="plane-header">
+                        <span class="plane-name">${plane.name}</span>
+                    </div>
+                    <div class="plane-numbers-detail">
+                        <span class="present"><strong>${t.present_numbers}:</strong> ${plane.numbers_present.join(', ') || '-'}</span>
+                        <span class="missing"><strong>${t.missing_numbers}:</strong> ${plane.numbers_missing.join(', ') || '-'}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Empty Planes
+        const emptyPlanesList = document.getElementById('empty-planes-list');
+        if (analysis.empty_planes.length === 0) {
+            emptyPlanesList.innerHTML = `<div class="no-planes">${currentLang === 'hi' ? 'कोई खाली तल नहीं' : 'No empty planes'}</div>`;
+        } else {
+            emptyPlanesList.innerHTML = analysis.empty_planes.map(plane => `
+                <div class="plane-card empty-plane">
+                    <div class="plane-header">
+                        <span class="plane-name">${plane.name}</span>
+                        <span class="plane-numbers missing-all">${plane.numbers_missing.join(', ')}</span>
+                    </div>
+                    <div class="plane-interpretation">${plane.interpretation}</div>
+                </div>
+            `).join('');
+        }
+    }
+
     // ... (Existing Event Listeners for other tabs) ...
     // Note: Re-paste the Calculate and Compare listeners here if you are overwriting the whole file,
     // or just append the forecast logic if you are editing incrementally.
@@ -540,6 +729,19 @@ document.addEventListener('DOMContentLoaded', () => {
             resultMsg.innerHTML = `${t.res_prefix} <strong>${categoryLabel}</strong> "${text}" ${t.res_vibration}:`;
         }
         resultNum.textContent = nameVibration;
+
+        // Store vibration number for language switching
+        lastVibrationNumber = nameVibration;
+
+        // Display vibration interpretation
+        const interpretation = engine.get_vibration_interpretation(nameVibration, currentLang);
+        if (interpretation) {
+            document.getElementById('interp-title').textContent = interpretation.title;
+            document.getElementById('interp-theme').textContent = interpretation.theme;
+            document.getElementById('interp-strengths').textContent = interpretation.strengths;
+            document.getElementById('interp-shadow').textContent = interpretation.shadow;
+            document.getElementById('vibration-interpretation').classList.remove('hidden');
+        }
 
         let suitText = "", suitClass = "";
         if (suitability.code === 'lucky_match') { suitText = t.suit_exc; suitClass = 'status-Friend'; }
