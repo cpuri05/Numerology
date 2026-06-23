@@ -32,7 +32,16 @@ Get personalized numerological forecasts for any date:
 - Each forecast shows whether the period is Favorable, Normal, or Unfavorable
 - Hierarchical view showing how daily influences nest within monthly and yearly cycles
 
-### 4. Saved Profiles
+### 4. Numeroscope (Lo Shu Grid)
+Generate a personalized Lo Shu Grid based on your birth date and gender:
+- **Driver (Psychic) Number**: Your day-to-day personality
+- **Conductor (Destiny) Number**: Your life path and destiny
+- **Kua Number**: Feng Shui directional energy (calculated using Direct Calendar Year method)
+- **3×3 Lo Shu Grid Matrix**: Visual representation of number frequencies in your numerological profile
+- Grid shows active and missing numbers in your birth chart
+- Based on ancient Chinese Lo Shu Square principles
+
+### 5. Saved Profiles
 Manage and access your previously analyzed numerology profiles:
 - **Save Profiles**: Store analyzed names/entities with all calculated results
 - **Quick Access**: View all saved profiles in one place
@@ -115,6 +124,21 @@ Then open `http://localhost:8000` in your browser
    - Monthly influence with status
    - Daily influence with status
    - Color-coded indicators (Green=Favorable, Gray=Normal, Red=Unfavorable)
+
+### Numeroscope
+1. Select the **Numeroscope** tab
+2. Enter your **Date of Birth**
+3. Select your **Gender** (Male/Female)
+4. Click **Generate Numeroscope** to see:
+   - Driver (Psychic) Number: Represents your external personality
+   - Conductor (Destiny) Number: Represents your life path
+   - Kua Number: Your Feng Shui directional number
+   - Lo Shu Grid: 3×3 matrix showing the frequency of each number (1-9) in your profile
+5. The grid displays:
+   - Numbers in small circles (top-left) show the Lo Shu position (1-9)
+   - Bold numbers in center show how many times that number appears
+   - Filled cells (with color) indicate active numbers
+   - Empty cells (grayed out) show missing numbers
 
 ### Saved Profiles
 1. Select the **Saved Profiles** tab

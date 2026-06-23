@@ -9,7 +9,7 @@
     <link rel="apple-touch-icon" href="icons/icon-512.png">
     
     <!-- Adaptive Theme Colors for Browser Toolbar -->
-    <meta name="theme-color" content="#4f46e5" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#6b8e6f" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)">
 </head>
 <body>
@@ -29,6 +29,7 @@
             <button id="tab-single" class="active" data-i18n="tab_single">Number Analysis</button>
             <button id="tab-compat" data-i18n="tab_compat">Compatibility</button>
             <button id="tab-forecast" data-i18n="tab_forecast">Forecast</button>
+            <button id="tab-numeroscope" data-i18n="tab_numeroscope">Numeroscope</button>
             <button id="tab-profiles" data-i18n="tab_profiles">Saved Profiles</button>
         </div>
 
@@ -74,6 +75,23 @@
                 <!-- Name Calculation -->
                 <p id="result-message"></p>
                 <div class="big-number" id="result-number"></div>
+                
+                <!-- Vibration Interpretation -->
+                <div id="vibration-interpretation" class="vibration-interp hidden">
+                    <h4 class="interp-title" id="interp-title"></h4>
+                    <div class="interp-section">
+                        <strong data-i18n="interp_theme">Core Theme:</strong>
+                        <span id="interp-theme"></span>
+                    </div>
+                    <div class="interp-section">
+                        <strong data-i18n="interp_strengths">Strengths:</strong>
+                        <span id="interp-strengths"></span>
+                    </div>
+                    <div class="interp-section">
+                        <strong data-i18n="interp_shadow">Shadow Traits:</strong>
+                        <span id="interp-shadow"></span>
+                    </div>
+                </div>
                 
                 <!-- Suitability Verdict -->
                 <div id="suitability-box" class="suitability-badge"></div>
@@ -122,7 +140,7 @@
                 <input type="text" id="input-name-fc" placeholder="Enter name" autocomplete="off">
                 <div id="autocomplete-list-fc" class="autocomplete-items"></div>
             </div>
-            
+
             <div class="input-group">
                 <label data-i18n="lbl_dob">Date of Birth</label>
                 <input type="date" id="input-dob-fc">
@@ -176,7 +194,65 @@
             </div>
         </section>
 
-        <!-- SECTION 4: SAVED PROFILES -->
+        <!-- SECTION 4: NUMEROSCOPE (LO SHU GRID) -->
+        <section id="section-numeroscope" class="hidden">
+            <div class="input-group">
+                <label data-i18n="lbl_dob">Date of Birth</label>
+                <input type="date" id="input-dob-loshu">
+            </div>
+
+            <div class="input-group">
+                <label data-i18n="lbl_gender">Gender</label>
+                <select id="input-gender">
+                    <option value="Male" data-i18n="opt_male">Male</option>
+                    <option value="Female" data-i18n="opt_female">Female</option>
+                </select>
+            </div>
+
+            <button id="btn-loshu" class="action-btn" data-i18n="btn_loshu">Generate Numeroscope</button>
+
+            <div id="loshu-result-area" class="result-box hidden">
+                <div class="loshu-info">
+                    <div class="info-item">
+                        <span data-i18n="loshu_driver">Driver (Psychic)</span>: <strong id="loshu-driver"></strong>
+                    </div>
+                    <div class="info-item">
+                        <span data-i18n="loshu_conductor">Conductor (Destiny)</span>: <strong id="loshu-conductor"></strong>
+                    </div>
+                    <div class="info-item">
+                        <span data-i18n="loshu_kua">Kua Number</span>: <strong id="loshu-kua"></strong>
+                    </div>
+                </div>
+
+                <div class="loshu-grid-container">
+                    <div class="loshu-grid" id="loshu-grid">
+                        <!-- Grid will be populated by JS -->
+                    </div>
+                </div>
+
+                <!-- Plane Analysis Section -->
+                <div class="plane-analysis" id="plane-analysis">
+                    <h3 class="analysis-title" data-i18n="analysis_title">Plane Analysis</h3>
+                    
+                    <div id="full-planes" class="plane-section">
+                        <h4 class="plane-category full" data-i18n="full_planes">✓ Active Planes (Full)</h4>
+                        <div id="full-planes-list"></div>
+                    </div>
+
+                    <div id="partial-planes" class="plane-section">
+                        <h4 class="plane-category partial" data-i18n="partial_planes">◐ Partially Active Planes</h4>
+                        <div id="partial-planes-list"></div>
+                    </div>
+
+                    <div id="empty-planes" class="plane-section">
+                        <h4 class="plane-category empty" data-i18n="empty_planes">○ Inactive Planes (Empty)</h4>
+                        <div id="empty-planes-list"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: SAVED PROFILES -->
         <section id="section-profiles" class="hidden">
             <div class="profiles-header">
                 <div class="input-group">

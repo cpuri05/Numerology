@@ -1,9 +1,9 @@
 :root {
     /* Light Mode Palette */
-    --primary: #4f46e5;       
-    --primary-dark: #3730a3;  
+    --primary: #1eac2f;       /* Sage green */
+    --primary-dark: #1f7b27;  /* Darker sage green */
     --accent: #f59e0b;        
-    --bg: #f8fafc;            
+    --bg: #f8faf9;            
     --card-bg: #ffffff;
     --text: #1e293b;          
     --text-muted: #64748b;    
@@ -22,8 +22,8 @@
 @media (prefers-color-scheme: dark) {
     :root {
         /* Dark Mode Palette */
-        --primary: #818cf8;       
-        --primary-dark: #6366f1;  
+        --primary: #8fae92;       /* Lighter sage for dark mode */
+        --primary-dark: #6b8e6f;  /* Sage green */
         --accent: #fbbf24;        
         --bg: #0f172a;            
         --card-bg: #1e293b;       
@@ -154,7 +154,7 @@ input, select {
 
 input:focus, select:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    box-shadow: 0 0 0 3px rgba(107, 142, 111, 0.2);
 }
 
 /* Buttons */
@@ -207,7 +207,7 @@ input:focus, select:focus {
 
 .profile-box {
     text-align: left;
-    background: rgba(99, 102, 241, 0.05); 
+    background: rgba(107, 142, 111, 0.05); 
     padding: 15px 20px;
     border-radius: 12px;
     margin-bottom: 20px;
@@ -423,7 +423,7 @@ input:focus, select:focus {
     gap: 10px;
     margin: 15px 0;
     padding: 10px;
-    background: rgba(99, 102, 241, 0.05);
+    background: rgba(107, 142, 111, 0.05);
     border-radius: 8px;
 }
 
@@ -678,7 +678,7 @@ input:focus, select:focus {
 
 .autocomplete-item:hover,
 .autocomplete-item.autocomplete-active {
-    background: rgba(99, 102, 241, 0.1);
+    background: rgba(107, 142, 111, 0.1);
 }
 
 .autocomplete-item strong {
@@ -695,4 +695,277 @@ input:focus, select:focus {
 
 .autocomplete-item.create-new:hover {
     background: rgba(16, 185, 129, 0.15);
+}
+
+/* --- Lo Shu Grid Styles --- */
+.loshu-info {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: rgba(107, 142, 111, 0.05);
+    border-radius: 12px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.info-item {
+    text-align: center;
+    flex: 1;
+    min-width: 100px;
+}
+
+.info-item span {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.info-item strong {
+    font-size: 1.8rem;
+    color: var(--primary);
+    font-weight: 800;
+}
+
+.loshu-grid-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.loshu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    max-width: 350px;
+    width: 100%;
+}
+
+.loshu-cell {
+    aspect-ratio: 1;
+    background: var(--card-bg);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.loshu-cell.filled {
+    border-color: var(--primary);
+    background: linear-gradient(135deg, rgba(107, 142, 111, 0.1), var(--card-bg));
+}
+
+.loshu-cell.empty {
+    opacity: 0.4;
+}
+
+.cell-number {
+    position: absolute;
+    top: 5px;
+    left: 8px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    background: var(--bg);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.loshu-cell.filled .cell-number {
+    background: var(--primary);
+    color: white;
+}
+
+.cell-count {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary);
+    text-align: center;
+    word-break: break-word;
+}
+
+.loshu-cell.empty .cell-count {
+    color: var(--text-muted);
+    font-size: 1.5rem;
+}
+
+/* --- Plane Analysis Styles --- */
+.plane-analysis {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.analysis-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 20px;
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+}
+
+.plane-section {
+    margin-bottom: 25px;
+}
+
+.plane-category {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.plane-category.full {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05));
+    color: var(--friend);
+    border-left: 4px solid var(--friend);
+}
+
+.plane-category.partial {
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(251, 191, 36, 0.05));
+    color: var(--accent);
+    border-left: 4px solid var(--accent);
+}
+
+.plane-category.empty {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.05));
+    color: var(--enemy);
+    border-left: 4px solid var(--enemy);
+}
+
+.plane-card {
+    background: var(--bg);
+    border-radius: 10px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border-left: 3px solid var(--border);
+    transition: all 0.2s ease;
+}
+
+.plane-card:hover {
+    transform: translateX(3px);
+    box-shadow: var(--shadow-sm);
+}
+
+.full-plane {
+    border-left-color: var(--friend);
+    background: linear-gradient(to right, rgba(16, 185, 129, 0.05), var(--bg));
+}
+
+.partial-plane {
+    border-left-color: var(--accent);
+    background: linear-gradient(to right, rgba(251, 191, 36, 0.05), var(--bg));
+}
+
+.empty-plane {
+    border-left-color: var(--enemy);
+    background: linear-gradient(to right, rgba(239, 68, 68, 0.05), var(--bg));
+}
+
+.plane-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.plane-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text);
+}
+
+.plane-numbers {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--primary);
+    background: rgba(107, 142, 111, 0.1);
+    padding: 3px 8px;
+    border-radius: 6px;
+}
+
+.plane-numbers.missing-all {
+    color: var(--enemy);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.plane-interpretation {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-top: 5px;
+}
+
+.plane-numbers-detail {
+    display: flex;
+    gap: 15px;
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+}
+
+.plane-numbers-detail .present {
+    color: var(--friend);
+}
+
+.plane-numbers-detail .missing {
+    color: var(--enemy);
+}
+
+.no-planes {
+    text-align: center;
+    padding: 15px;
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+/* --- Vibration Interpretation Styles --- */
+.vibration-interp {
+    margin-top: 20px;
+    background: linear-gradient(135deg, rgba(107, 142, 111, 0.08), rgba(107, 142, 111, 0.02));
+    border-radius: 12px;
+    padding: 15px;
+    border-left: 4px solid var(--primary);
+    text-align: left;
+}
+
+.interp-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0 0 12px 0;
+    text-align: center;
+}
+
+.interp-section {
+    margin-bottom: 10px;
+    line-height: 1.6;
+    font-size: 0.9rem;
+}
+
+.interp-section strong {
+    color: var(--text);
+    display: block;
+    margin-bottom: 3px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.interp-section span {
+    color: var(--text-muted);
 }
