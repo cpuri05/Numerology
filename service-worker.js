@@ -1,4 +1,4 @@
-const CACHE_NAME = 'numerology-v2';
+const CACHE_NAME = 'numerology-v3';
 const ASSETS = [
   './',
   './index.html',
@@ -13,6 +13,22 @@ self.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
+  self.skipWaiting(); // Force activation
+});
+
+self.addEventListener('activate', (e) => {
+  e.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cache) => {
+          if (cache !== CACHE_NAME) {
+            return caches.delete(cache); // Delete old caches
+          }
+        })
+      );
+    })
+  );
+  return self.clients.claim(); // Take control immediately
 });
 
 self.addEventListener('fetch', (e) => {
